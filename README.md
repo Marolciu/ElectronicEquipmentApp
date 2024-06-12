@@ -19,6 +19,12 @@ ElectronicEquipmentApp to prosta aplikacja konsolowa, która ułatwia zarządzan
 4. Znajdź i otwórz plik `ElectronicEquipmentApp.sln`.
 5. Zbuduj i uruchom projekt, klikając `Start` lub naciskając `F5`.
 
+## Licencja
+Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE](LICENSE) po więcej informacji.
+
+## Autor
+Marcin Krutak
+
 ## Przykład użycia
 
 ### Dodawanie sprzętu
@@ -27,8 +33,3 @@ ElectronicEquipmentApp to prosta aplikacja konsolowa, która ułatwia zarządzan
 > Podaj nazwę urządzenia: Dell XPS 15
 > Podaj identyfikator pracownika: 123
 
-## Licencja
-Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE](LICENSE) po więcej informacji.
-
-## Autor
-Marcin Krutak
