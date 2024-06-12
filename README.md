@@ -1,7 +1,7 @@
 # ElectronicEquipmentApp
 
 ## Opis
-ElectronicEquipmentApp to prosta aplikacja konsolowa, która ułatwia zarządzanie sprzętem elektronicznym w organizacji. Pozwala na dodawanie sprzętu firmowego takiego jak telefony, komputery, drukarki i monitory oraz przypisywanie pracowników do używanego przez nich sprzętu elektronicznego, co ułatwia inwentaryzację i kontrolę nad tym, kto jest w posiadaniu konkretnego urządzenia. Aplikacje umożliwia również wyświetlanie wszystkiego co znajduje się na "stanie" osoby której wydano sprzęt firmowy w celu realizacji zadań związanych z pracą w organizacji. Aplikacja umożliwia tworzenie, edycję, usuwanie i wyszukiwanie sprzętu jak i danych powiązanego ze sprzętem pracownika. 
+ElectronicEquipmentApp to prosta aplikacja konsolowa, która ułatwia zarządzanie sprzętem elektronicznym w organizacji. Pozwala na dodawanie sprzętu firmowego takiego jak telefony, komputery, drukarki i monitory oraz przypisywanie pracowników do używanego przez nich sprzętu elektronicznego, co ułatwia inwentaryzację i kontrolę nad tym, kto jest w posiadaniu konkretnego urządzenia. Aplikacje umożliwia również wyświetlanie wszystkiego co znajduje się na "stanie" osoby której wydano sprzęt firmowy w celu realizacji zadań związanych z pracą w organizacji. Aplikacja umożliwia tworzenie, edycję, usuwanie i wyszukiwanie sprzętu jak i danych powiązanego ze sprzętem pracownika. Informacje zapisywane są w plikach .txt Program będzie sukcesywnie rozbudowywany o nowe funkcje i właściwości.
 
 ## Jak uruchomić
 
@@ -29,7 +29,10 @@ Marcin Krutak
 
 ### Dodawanie sprzętu
 ```plaintext
-> Wpisz typ urządzenia (telefon, komputer, drukarka, monitor): komputer
-> Podaj nazwę urządzenia: Dell XPS 15
-> Podaj identyfikator pracownika: 123
+> Wybierz opcję Rejestracja i utwórz konto administratora podając 6-cyfrowe ID (Twój login jest to kolejno pierwsze 6 cyfr z numeru PESEL RRMMDD)
+> Podaj Imię i Nazwisko
+> Utwórz swoje własne unikatowe hasło logowania.
+> Wybierz opcję Logowanie i zaloguj się na konto abyś mógł dokonywać zmian pracując z programem.
+
+
 
