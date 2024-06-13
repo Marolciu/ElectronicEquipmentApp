@@ -35,7 +35,7 @@ ElectronicEquipmentApp to aplikacja konsolowa napisana w języku C#, która słu
 5. Zbuduj i uruchom projekt, klikając `Start` lub naciskając `F5`.
 
 ## Licencja
-Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE.txt](LICENSE.txt) po więcej informacji.
+Ten projekt jest licencjonowany na licencji GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 - zobacz plik [LICENSE.txt](LICENSE.txt) po więcej informacji.
 
 ## Autor
 Marcin Krutak
