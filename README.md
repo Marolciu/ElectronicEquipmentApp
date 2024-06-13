@@ -40,14 +40,36 @@ Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE](LICENSE)
 ## Autor
 Marcin Krutak
 
+### Obsługa programu
+```plaintext
+1. Rejestracja administratora: Pozwala na utworzenie nowego konta administratora.
+2. Logowanie administratora: Pozwala zalogować się na istniejące konto
+Po zalogowaniu dostępne jest menu główne:
+1. Zarządzanie sprzętem:
+> Dodawanie nowego sprzętu.
+> Edycja istniejącego sprzętu.
+> Przypisywanie sprzętu do użytkowników.
+> Usuwanie sprzętu.
+2. Zarządzanie użytkownikami:
+> Dodawanie nowych użytkowników.
+> Edycja użytkowników.
+> Usuwanie użytkowników.
+3. Wyszukiwanie sprzętu:
+> Wyszukiwanie sprzętu po ID.
+> Wyświetlanie sprzętu przypisanego do użytkownika.
+Wyjście: Zakończenie działania aplikacji.
+
 ## Przykład użycia
 
-### Dodawanie sprzętu
+### Rejestracja i logowanie
 ```plaintext
 > Wybierz opcję Rejestracja i utwórz konto administratora podając 6-cyfrowe ID (Twój login jest to kolejno pierwsze 6 cyfr z numeru PESEL RRMMDD)
 > Podaj Imię i Nazwisko
 > Utwórz swoje własne unikatowe hasło logowania.
 > Wybierz opcję Logowanie i zaloguj się na konto abyś mógł dokonywać zmian pracując z programem.
-
-
+> Wybierz opcję dodaj sprzęt i podążaj za instrukcjami.
+> Analogicznie dodaj nowego użytkownika który będzie posługiwał się urządzeniem.
+> Otwórz menu sprzęt i przypisz sprzęt do użytkownika.
+> Teraz moższ skorzystać z menu i wyszukać sprzęt przypisany do użytkownika.
+> Aby poprawnie zamknąć program i zapisać zmiany w menu głównym wybierz opcję Wyjście oraz potwierdź zapisanie zmian klikając t i zatwierdź enter.
 
