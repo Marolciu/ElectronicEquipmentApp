@@ -9,61 +9,70 @@ namespace ElectronicEquipmentApp
 {
     class AdminManager
     {
-        private string filePath = "admins.txt";
-        private List<Admin> adminList;
+        private string filePath = "persons.txt";
+        private List<Person> personList;
 
         public AdminManager()
         {
-            adminList = ReadAdminsFromFile();
+            personList = ReadPersonsFromFile();
         }
 
-        public void Register()
+        public void Register(bool isAdmin = true)
         {
             Console.WriteLine("Podaj ID (6 cyfr):");
-            int adminId = int.Parse(Console.ReadLine());
+            int id = int.Parse(Console.ReadLine());
 
-            if (adminList.Any(u => u.AdminId == adminId))
+            if (personList.Any(p => p.Id == id))
             {
-                Console.WriteLine("Administrator o podanym ID już istnieje.");
+                Console.WriteLine("Osoba o podanym ID już istnieje.");
                 return;
             }
 
             Console.WriteLine("Podaj imię i nazwisko:");
-            string adminName = Console.ReadLine();
+            string name = Console.ReadLine();
 
             Console.WriteLine("Podaj hasło:");
             string password = ReadPassword();
 
             string passwordHash = HashPassword(password);
 
-            Admin admin = new Admin(adminId, adminName, passwordHash);
-            adminList.Add(admin);
-            WriteAdminsToFile();
+            Person person;
+            if (isAdmin)
+            {
+                person = new Admin(id, name, passwordHash);
+            }
+            else
+            {
+                person = new User(id, name, passwordHash);
+            }
+
+            personList.Add(person);
+            WritePersonsToFile();
 
             Console.WriteLine("Rejestracja zakończona sukcesem.");
         }
 
-        public Admin Login()
+        public Person Login()
         {
             Console.WriteLine("Podaj ID:");
-            int adminId = int.Parse(Console.ReadLine());
+            int id = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Podaj hasło:");
             string password = ReadPassword();
 
             string passwordHash = HashPassword(password);
-            Admin admin = adminList.FirstOrDefault(u => u.AdminId == adminId && u.PasswordHash == passwordHash);
-            if (admin == null)
+            Person person = personList.FirstOrDefault(p => p.Id == id && p.PasswordHash == passwordHash);
+            if (person == null)
             {
                 Console.WriteLine("Nieprawidłowe ID lub hasło.");
             }
 
-            return admin;
+            return person;
         }
 
-        private List<Admin> ReadAdminsFromFile()
+        private List<Person> ReadPersonsFromFile()
         {
-            List<Admin> admins = new List<Admin>();
+            List<Person> persons = new List<Person>();
 
             if (File.Exists(filePath))
             {
@@ -73,25 +82,33 @@ namespace ElectronicEquipmentApp
                     string[] parts = line.Split(',');
                     if (parts.Length == 4)
                     {
-                        int adminId = int.Parse(parts[0]);
-                        string adminName = parts[1];
+                        int id = int.Parse(parts[0]);
+                        string name = parts[1];
                         string passwordHash = parts[2];
                         bool isAdmin = bool.Parse(parts[3]);
-                        admins.Add(new Admin(adminId, adminName, passwordHash, isAdmin));
+
+                        if (isAdmin)
+                        {
+                            persons.Add(new Admin(id, name, passwordHash));
+                        }
+                        else
+                        {
+                            persons.Add(new User(id, name, passwordHash));
+                        }
                     }
                 }
             }
 
-            return admins;
+            return persons;
         }
 
-        private void WriteAdminsToFile()
+        private void WritePersonsToFile()
         {
             List<string> lines = new List<string>();
 
-            foreach (Admin admin in adminList)
+            foreach (Person person in personList)
             {
-                lines.Add(admin.ToString());
+                lines.Add(person.ToString());
             }
 
             File.WriteAllLines(filePath, lines);

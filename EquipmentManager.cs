@@ -10,41 +10,41 @@ namespace ElectronicEquipmentApp
 {
     class EquipmentManager
     {
-        private string userFilePath = "users.txt";
+        private string employeeFilePath = "employees.txt";
         private string equipmentFilePath = "equipment.txt";
 
-        public List<User> UserList { get; private set; } = new List<User>();
+        public List<Employee> EmployeeList { get; private set; } = new List<Employee>();
         public List<ElectronicEquipment> EquipmentList { get; private set; } = new List<ElectronicEquipment>();
 
         public EquipmentManager()
         {
-            UserList = ReadUsersFromFile();
+            EmployeeList = ReadEmployeesFromFile();
             EquipmentList = ReadEquipmentFromFile(equipmentFilePath);
         }
 
-        public void AddUser()
+        public void AddEmployee()
         {
             try
             {
-                Console.WriteLine("Podaj ID użytkownika:");
-                int userId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Podaj ID pracownika:");
+                int employeeId = int.Parse(Console.ReadLine());
 
-                if (UserList.Any(u => u.UserId == userId))
+                if (EmployeeList.Any(u => u.Id == employeeId))
                 {
-                    Console.WriteLine("Użytkownik o podanym ID już istnieje.");
+                    Console.WriteLine("Pracownik o podanym ID już istnieje.");
                     return;
                 }
 
                 Console.WriteLine("Podaj imię i nazwisko:");
-                string userName = Console.ReadLine();
+                string employeeName = Console.ReadLine();
 
                 Console.WriteLine("Podaj numer pokoju:");
                 string roomNumber = Console.ReadLine();
 
-                User user = new User(userId, userName, roomNumber);
-                UserList.Add(user);
-                WriteUsersToFile(userFilePath, UserList);
-                Console.WriteLine("Użytkownik został dodany.");
+                Employee employee = new Employee(employeeId, employeeName, roomNumber);
+                EmployeeList.Add(employee);
+                WriteEmployeesToFile(employeeFilePath, EmployeeList);
+                Console.WriteLine("Pracownik został dodany.");
             }
             catch (FormatException)
             {
@@ -70,19 +70,19 @@ namespace ElectronicEquipmentApp
                     return;
                 }
 
-                Console.WriteLine("Podaj ID użytkownika:");
-                int userId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Podaj ID pracownika:");
+                int employeeId = int.Parse(Console.ReadLine());
 
-                User user = UserList.FirstOrDefault(u => u.UserId == userId);
-                if (user == null)
+                Employee employee = EmployeeList.FirstOrDefault(u => u.Id == employeeId);
+                if (employee == null)
                 {
-                    Console.WriteLine("Nie znaleziono użytkownika o podanym ID.");
+                    Console.WriteLine("Nie znaleziono pracownika o podanym ID.");
                     return;
                 }
 
-                equipment.AssignedUser = user;
+                equipment.AssignedEmployee = employee;
                 WriteEquipmentToFile(equipmentFilePath, EquipmentList);
-                Console.WriteLine("Sprzęt został przypisany użytkownikowi.");
+                Console.WriteLine("Sprzęt został przypisany pracownikowi.");
             }
             catch (FormatException)
             {
@@ -256,9 +256,9 @@ namespace ElectronicEquipmentApp
             {
                 Console.WriteLine($"ID: {equipment.Id}");
                 Console.WriteLine($"Nazwa: {equipment.Name}");
-                if (equipment.AssignedUser != null)
+                if (equipment.AssignedEmployee != null)
                 {
-                    Console.WriteLine($"Użytkownik: {equipment.AssignedUser.UserName}");
+                    Console.WriteLine($"Pracownik: {equipment.AssignedEmployee.Name}");
                 }
 
                 if (equipment is Computer computer)
@@ -287,24 +287,24 @@ namespace ElectronicEquipmentApp
 
         public void DisplayEquipmentTable(List<ElectronicEquipment> equipmentList)
         {
-            string header = "| {0,-6} | {1,-25} | {2,-9} | {3,-18} | {4,-12} | {5,-4} | {6,-7} | {7,-13} | {8,-14} |";
-            string separator = new string('-', 136);
+            string header = "| {0,-8} | {1,-18} | {2,-11} | {3,-18} | {4,-12} | {5,-4} | {6,-7} | {7,-15} | {8,-16} |";
+            string separator = new string('-', 137);
 
             Console.WriteLine(separator);
-            Console.WriteLine(header, "ID", "Nazwa", "Typ", "Użytkownik", "CPU", "RAM", "Rozmiar", "Typ Drukarki", "Numer Telefonu");
+            Console.WriteLine(header, "ID", "Nazwa", "Typ", "Pracownik", "CPU", "RAM", "Rozmiar", "Typ Drukarki", "Numer Telefonu");
             Console.WriteLine(separator);
 
             foreach (var equipment in equipmentList)
             {
                 string equipmentType = equipment.GetType().Name;
-                string userName = equipment.AssignedUser != null ? equipment.AssignedUser.UserName : "Brak";
+                string employeeName = equipment.AssignedEmployee != null ? equipment.AssignedEmployee.Name : "Brak";
                 string cpu = equipment is Computer computer ? computer.CPU : "";
                 string ram = equipment is Computer computer2 ? computer2.RAM.ToString() : "";
                 string size = equipment is Monitor monitor ? monitor.Size.ToString() : "";
                 string printerType = equipment is Printer printer ? printer.Type : "";
                 string phoneNumber = equipment is Phone phone ? phone.PhoneNumber : "";
 
-                Console.WriteLine(header, equipment.Id, equipment.Name, equipmentType, userName, cpu, ram, size, printerType, phoneNumber);
+                Console.WriteLine(header, equipment.Id, equipment.Name, equipmentType, employeeName, cpu, ram, size, printerType, phoneNumber);
             }
 
             Console.WriteLine(separator);
@@ -357,17 +357,17 @@ namespace ElectronicEquipmentApp
                             int id = int.Parse(parts[0]);
                             string type = parts[1];
                             string name = parts[2];
-                            User user = null;
+                            Employee employee = null;
 
                             if (!string.IsNullOrWhiteSpace(parts[3]) && !string.IsNullOrWhiteSpace(parts[4]))
                             {
-                                int userId = int.Parse(parts[3]);
-                                string userName = parts[4];
-                                user = UserList.FirstOrDefault(u => u.UserId == userId && u.UserName == userName);
-                                if (user == null)
+                                int employeeId = int.Parse(parts[3]);
+                                string employeeName = parts[4];
+                                employee = EmployeeList.FirstOrDefault(u => u.Id == employeeId && u.Name == employeeName);
+                                if (employee == null)
                                 {
-                                    user = new User(userId, userName, "Unknown");
-                                    UserList.Add(user);
+                                    employee = new Employee(employeeId, employeeName, "Unknown");
+                                    EmployeeList.Add(employee);
                                 }
                             }
 
@@ -378,28 +378,28 @@ namespace ElectronicEquipmentApp
                                     {
                                         string cpu = parts[5];
                                         int ram = int.Parse(parts[6]);
-                                        equipmentList.Add(new Computer(id, name, cpu, ram, user));
+                                        equipmentList.Add(new Computer(id, name, cpu, ram, employee));
                                     }
                                     break;
                                 case "monitor":
                                     if (parts.Length == 6)
                                     {
                                         int size = int.Parse(parts[5]);
-                                        equipmentList.Add(new Monitor(id, name, size, user));
+                                        equipmentList.Add(new Monitor(id, name, size, employee));
                                     }
                                     break;
                                 case "drukarka":
                                     if (parts.Length == 6)
                                     {
                                         string printerType = parts[5];
-                                        equipmentList.Add(new Printer(id, name, printerType, user));
+                                        equipmentList.Add(new Printer(id, name, printerType, employee));
                                     }
                                     break;
                                 case "telefon":
                                     if (parts.Length == 6)
                                     {
                                         string phoneNumber = parts[5];
-                                        equipmentList.Add(new Phone(id, name, phoneNumber, user));
+                                        equipmentList.Add(new Phone(id, name, phoneNumber, employee));
                                     }
                                     break;
                                 default:
@@ -426,13 +426,13 @@ namespace ElectronicEquipmentApp
             return equipmentList;
         }
 
-        public List<User> ReadUsersFromFile()
+        public List<Employee> ReadEmployeesFromFile()
         {
-            List<User> userList = new List<User>();
+            List<Employee> employeeList = new List<Employee>();
 
-            if (File.Exists(userFilePath))
+            if (File.Exists(employeeFilePath))
             {
-                string[] lines = File.ReadAllLines(userFilePath);
+                string[] lines = File.ReadAllLines(employeeFilePath);
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(',');
@@ -441,10 +441,10 @@ namespace ElectronicEquipmentApp
                     {
                         if (parts.Length == 3)
                         {
-                            int userId = int.Parse(parts[0]);
-                            string userName = parts[1];
+                            int employeeId = int.Parse(parts[0]);
+                            string employeeName = parts[1];
                             string roomNumber = parts[2];
-                            userList.Add(new User(userId, userName, roomNumber));
+                            employeeList.Add(new Employee(employeeId, employeeName, roomNumber));
                         }
                         else
                         {
@@ -462,7 +462,7 @@ namespace ElectronicEquipmentApp
                 }
             }
 
-            return userList;
+            return employeeList;
         }
 
         public void WriteEquipmentToFile(string filePath, List<ElectronicEquipment> equipmentList)
@@ -472,39 +472,39 @@ namespace ElectronicEquipmentApp
             {
                 if (equipment is Computer computer)
                 {
-                    string line = $"{computer.Id},Komputer,{computer.Name},{computer.AssignedUser?.UserId},{computer.AssignedUser?.UserName},{computer.CPU},{computer.RAM}";
+                    string line = $"{computer.Id},Komputer,{computer.Name},{computer.AssignedEmployee?.Id},{computer.AssignedEmployee?.Name},{computer.CPU},{computer.RAM}";
                     lines.Add(line);
                 }
                 else if (equipment is Monitor monitor)
                 {
-                    string line = $"{monitor.Id},Monitor,{monitor.Name},{monitor.AssignedUser?.UserId},{monitor.AssignedUser?.UserName},{monitor.Size}";
+                    string line = $"{monitor.Id},Monitor,{monitor.Name},{monitor.AssignedEmployee?.Id},{monitor.AssignedEmployee?.Name},{monitor.Size}";
                     lines.Add(line);
                 }
                 else if (equipment is Printer printer)
                 {
-                    string line = $"{printer.Id},Drukarka,{printer.Name},{printer.AssignedUser?.UserId},{printer.AssignedUser?.UserName},{printer.Type}";
+                    string line = $"{printer.Id},Drukarka,{printer.Name},{printer.AssignedEmployee?.Id},{printer.AssignedEmployee?.Name},{printer.Type}";
                     lines.Add(line);
                 }
                 else if (equipment is Phone phone)
                 {
-                    string line = $"{phone.Id},Telefon,{phone.Name},{phone.AssignedUser?.UserId},{phone.AssignedUser?.UserName},{phone.PhoneNumber}";
+                    string line = $"{phone.Id},Telefon,{phone.Name},{phone.AssignedEmployee?.Id},{phone.AssignedEmployee?.Name},{phone.PhoneNumber}";
                     lines.Add(line);
                 }
                 else
                 {
-                    string line = $"{equipment.Id},Nieznany,{equipment.Name},{equipment.AssignedUser?.UserId},{equipment.AssignedUser?.UserName}";
+                    string line = $"{equipment.Id},Nieznany,{equipment.Name},{equipment.AssignedEmployee?.Id},{equipment.AssignedEmployee?.Name}";
                     lines.Add(line);
                 }
             }
             File.WriteAllLines(filePath, lines);
         }
 
-        public void WriteUsersToFile(string filePath, List<User> userList)
+        public void WriteEmployeesToFile(string filePath, List<Employee> employeeList)
         {
             List<string> lines = new List<string>();
-            foreach (var user in userList)
+            foreach (var employee in employeeList)
             {
-                string line = $"{user.UserId},{user.UserName},{user.RoomNumber}";
+                string line = $"{employee.Id},{employee.Name},{employee.RoomNumber}";
                 lines.Add(line);
             }
             File.WriteAllLines(filePath, lines);

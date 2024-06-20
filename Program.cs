@@ -6,23 +6,24 @@ namespace ElectronicEquipmentApp
     class Program
     {
         static string equipmentFilePath = "equipment.txt";
-        static string userFilePath = "users.txt";
+        static string employeeFilePath = "employees.txt";
         static EquipmentManager manager = new EquipmentManager();
         static AdminManager adminManager = new AdminManager();
         static bool hasSavedChanges = false;
 
         static void Main(string[] args)
         {
-            Admin currentAdmin = null;
-            while (currentAdmin == null)
+            Person currentPerson = null;
+            while (currentPerson == null)
             {
                 Console.WriteLine("Witaj w ElectronicEquipmentApp:");
                 Console.WriteLine("Wybierz opcję:");
-                Console.WriteLine("1. Rejestracja");
-                Console.WriteLine("2. Logowanie");
+                Console.WriteLine("1. Rejestracja jako Admin");
+                Console.WriteLine("2. Rejestracja jako Użytkownik");
+                Console.WriteLine("3. Logowanie");
 
                 int choice;
-                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 3)
                 {
                     Console.WriteLine("Niepoprawny wybór. Wybierz ponownie.");
                 }
@@ -30,11 +31,14 @@ namespace ElectronicEquipmentApp
                 switch (choice)
                 {
                     case 1:
-                        adminManager.Register();
+                        adminManager.Register(true);
                         break;
                     case 2:
-                        currentAdmin = adminManager.Login();
-                        if (currentAdmin == null)
+                        adminManager.Register(false);
+                        break;
+                    case 3:
+                        currentPerson = adminManager.Login();
+                        if (currentPerson == null)
                         {
                             Console.WriteLine("Logowanie nieudane, spróbuj ponownie.");
                         }
@@ -42,40 +46,18 @@ namespace ElectronicEquipmentApp
                 }
             }
 
-            Console.WriteLine($"Zalogowano jako {currentAdmin.AdminName} ({(currentAdmin.IsAdmin ? "Administrator" : "Użytkownik")})");
+            Console.WriteLine($"Zalogowano jako {currentPerson.Name} ({(currentPerson.IsAdmin ? "Administrator" : "Użytkownik")})");
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             Console.CancelKeyPress += new ConsoleCancelEventHandler(OnConsoleCancelEvent);
 
-            while (true)
+            if (currentPerson.IsAdmin)
             {
-                Console.WriteLine("Wybierz opcję:");
-                Console.WriteLine("1. Sprzęt");
-                Console.WriteLine("2. Użytkownik");
-                Console.WriteLine("3. Wyszukiwanie");
-                Console.WriteLine("0. Wyjście");
-
-                int choice;
-                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 3)
-                {
-                    Console.WriteLine("Niepoprawny wybór. Wybierz ponownie.");
-                }
-
-                switch (choice)
-                {
-                    case 0:
-                        AskToSaveChanges();
-                        return;
-                    case 1:
-                        EquipmentMenu();
-                        break;
-                    case 2:
-                        UserMenu();
-                        break;
-                    case 3:
-                        SearchMenu();
-                        break;
-                }
+                AdminMenu();
+            }
+            else
+            {
+                UserMenu();
             }
         }
 
@@ -103,7 +85,7 @@ namespace ElectronicEquipmentApp
             if (response == "t")
             {
                 manager.WriteEquipmentToFile(equipmentFilePath, manager.EquipmentList);
-                manager.WriteUsersToFile(userFilePath, manager.UserList);
+                manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
                 Console.WriteLine("Dane zostały zapisane.");
             }
             else
@@ -114,6 +96,66 @@ namespace ElectronicEquipmentApp
             Environment.Exit(0);
         }
 
+        static void AdminMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("Wybierz opcję:");
+                Console.WriteLine("1. Sprzęt");
+                Console.WriteLine("2. Pracownik");
+                Console.WriteLine("3. Wyszukiwanie");
+                Console.WriteLine("0. Wyjście");
+
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 3)
+                {
+                    Console.WriteLine("Niepoprawny wybór. Wybierz ponownie.");
+                }
+
+                switch (choice)
+                {
+                    case 0:
+                        AskToSaveChanges();
+                        return;
+                    case 1:
+                        EquipmentMenu();
+                        break;
+                    case 2:
+                        EmployeeMenu();
+                        break;
+                    case 3:
+                        SearchMenu();
+                        break;
+                }
+            }
+        }
+
+        static void UserMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("Wybierz opcję:");
+                Console.WriteLine("1. Wyszukiwanie");
+                Console.WriteLine("0. Wyjście");
+
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 1)
+                {
+                    Console.WriteLine("Niepoprawny wybór. Wybierz ponownie.");
+                }
+
+                switch (choice)
+                {
+                    case 0:
+                        AskToSaveChanges();
+                        return;
+                    case 1:
+                        SearchMenu();
+                        break;
+                }
+            }
+        }
+
         static void EquipmentMenu()
         {
             while (true)
@@ -121,7 +163,7 @@ namespace ElectronicEquipmentApp
                 Console.WriteLine("Wybierz opcję:");
                 Console.WriteLine("1. Dodaj nowy sprzęt");
                 Console.WriteLine("2. Edytuj istniejący sprzęt");
-                Console.WriteLine("3. Przypisz sprzęt do użytkownika lub zmień użytkownika");
+                Console.WriteLine("3. Przypisz sprzęt do pracownika lub zmień pracownika");
                 Console.WriteLine("4. Usuń sprzęt");
                 Console.WriteLine("0. Powrót do głównego menu");
 
@@ -155,14 +197,14 @@ namespace ElectronicEquipmentApp
             }
         }
 
-        static void UserMenu()
+        static void EmployeeMenu()
         {
             while (true)
             {
                 Console.WriteLine("Wybierz opcję:");
-                Console.WriteLine("1. Dodaj nowego użytkownika");
-                Console.WriteLine("2. Edytuj użytkownika");
-                Console.WriteLine("3. Usuń użytkownika (Możliwe tylko gdy do użytkownika nie należy już żaden sprzęt)");
+                Console.WriteLine("1. Dodaj nowego pracownika");
+                Console.WriteLine("2. Edytuj pracownika");
+                Console.WriteLine("3. Usuń pracownika (Możliwe tylko gdy do pracownika nie należy już żaden sprzęt)");
                 Console.WriteLine("0. Powrót do głównego menu");
 
                 int choice;
@@ -176,15 +218,15 @@ namespace ElectronicEquipmentApp
                     case 0:
                         return;
                     case 1:
-                        manager.AddUser();
+                        manager.AddEmployee();
                         hasSavedChanges = false;
                         break;
                     case 2:
-                        EditUser();
+                        EditEmployee();
                         hasSavedChanges = false;
                         break;
                     case 3:
-                        DeleteUser();
+                        DeleteEmployee();
                         hasSavedChanges = false;
                         break;
                 }
@@ -197,7 +239,7 @@ namespace ElectronicEquipmentApp
             {
                 Console.WriteLine("Wybierz opcję:");
                 Console.WriteLine("1. Szukaj sprzętu");
-                Console.WriteLine("2. Pokaż sprzęt przypisany do użytkownika");
+                Console.WriteLine("2. Pokaż sprzęt przypisany do pracownika");
                 Console.WriteLine("0. Powrót do głównego menu");
 
                 int choice;
@@ -214,7 +256,7 @@ namespace ElectronicEquipmentApp
                         SearchEquipmentById();
                         break;
                     case 2:
-                        SearchEquipmentByUserId();
+                        SearchEquipmentByEmployeeId();
                         break;
                 }
             }
@@ -274,13 +316,13 @@ namespace ElectronicEquipmentApp
             }
         }
 
-        static void SearchEquipmentByUserId()
+        static void SearchEquipmentByEmployeeId()
         {
             try
             {
                 Console.WriteLine("Wybierz opcję szukania:");
-                Console.WriteLine("1. Szukaj po pełnym ID użytkownika");
-                Console.WriteLine("2. Szukaj po części ID użytkownika");
+                Console.WriteLine("1. Szukaj po pełnym ID pracownika");
+                Console.WriteLine("2. Szukaj po części ID pracownika");
 
                 int searchChoice;
                 while (!int.TryParse(Console.ReadLine(), out searchChoice) || searchChoice < 1 || searchChoice > 2)
@@ -291,29 +333,29 @@ namespace ElectronicEquipmentApp
                 switch (searchChoice)
                 {
                     case 1:
-                        Console.WriteLine("Podaj pełne ID użytkownika:");
-                        string fullUserId = Console.ReadLine();
-                        List<ElectronicEquipment> equipmentByFullUserId = manager.EquipmentList.Where(e => e.AssignedUser != null && e.AssignedUser.UserId.ToString() == fullUserId).ToList();
-                        if (equipmentByFullUserId.Any())
+                        Console.WriteLine("Podaj pełne ID pracownika:");
+                        string fullEmployeeId = Console.ReadLine();
+                        List<ElectronicEquipment> equipmentByFullEmployeeId = manager.EquipmentList.Where(e => e.AssignedEmployee != null && e.AssignedEmployee.Id.ToString() == fullEmployeeId).ToList();
+                        if (equipmentByFullEmployeeId.Any())
                         {
-                            manager.DisplayEquipmentTable(equipmentByFullUserId);
+                            manager.DisplayEquipmentTable(equipmentByFullEmployeeId);
                         }
                         else
                         {
-                            Console.WriteLine("Nie znaleziono sprzętu przypisanego do użytkownika o podanym ID.");
+                            Console.WriteLine("Nie znaleziono sprzętu przypisanego do pracownika o podanym ID.");
                         }
                         break;
                     case 2:
-                        Console.WriteLine("Podaj część ID użytkownika:");
-                        string partialUserId = Console.ReadLine();
-                        List<ElectronicEquipment> equipmentByPartialUserId = manager.EquipmentList.Where(e => e.AssignedUser != null && e.AssignedUser.UserId.ToString().Contains(partialUserId)).ToList();
-                        if (equipmentByPartialUserId.Any())
+                        Console.WriteLine("Podaj część ID pracownika:");
+                        string partialEmployeeId = Console.ReadLine();
+                        List<ElectronicEquipment> equipmentByPartialEmployeeId = manager.EquipmentList.Where(e => e.AssignedEmployee != null && e.AssignedEmployee.Id.ToString().Contains(partialEmployeeId)).ToList();
+                        if (equipmentByPartialEmployeeId.Any())
                         {
-                            manager.DisplayEquipmentTable(equipmentByPartialUserId);
+                            manager.DisplayEquipmentTable(equipmentByPartialEmployeeId);
                         }
                         else
                         {
-                            Console.WriteLine("Nie znaleziono sprzętu przypisanego do użytkownika o podanym ID.");
+                            Console.WriteLine("Nie znaleziono sprzętu przypisanego do pracownika o podanym ID.");
                         }
                         break;
                 }
@@ -328,36 +370,36 @@ namespace ElectronicEquipmentApp
             }
         }
 
-        static void EditUser()
+        static void EditEmployee()
         {
             try
             {
-                Console.WriteLine("Podaj ID użytkownika do edycji:");
-                int userId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Podaj ID pracownika do edycji:");
+                int employeeId = int.Parse(Console.ReadLine());
 
-                User user = manager.UserList.FirstOrDefault(u => u.UserId == userId);
-                if (user != null)
+                Employee employee = manager.EmployeeList.FirstOrDefault(u => u.Id == employeeId);
+                if (employee != null)
                 {
                     Console.WriteLine("Podaj nowe imię i nazwisko lub naciśnij Enter aby pozostawić niezmienione:");
                     string newName = Console.ReadLine();
                     if (!string.IsNullOrEmpty(newName))
                     {
-                        user.UserName = newName;
+                        employee.Name = newName;
                     }
 
                     Console.WriteLine("Podaj nowy numer pokoju lub naciśnij Enter aby pozostawić niezmieniony:");
                     string newRoomNumber = Console.ReadLine();
                     if (!string.IsNullOrEmpty(newRoomNumber))
                     {
-                        user.RoomNumber = newRoomNumber;
+                        employee.RoomNumber = newRoomNumber;
                     }
 
-                    manager.WriteUsersToFile(userFilePath, manager.UserList);
-                    Console.WriteLine("Użytkownik został zaktualizowany.");
+                    manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
+                    Console.WriteLine("Pracownik został zaktualizowany.");
                 }
                 else
                 {
-                    Console.WriteLine("Nie znaleziono użytkownika o podanym ID.");
+                    Console.WriteLine("Nie znaleziono pracownika o podanym ID.");
                 }
             }
             catch (FormatException)
@@ -370,23 +412,23 @@ namespace ElectronicEquipmentApp
             }
         }
 
-        static void DeleteUser()
+        static void DeleteEmployee()
         {
             try
             {
-                Console.WriteLine("Podaj ID użytkownika do usunięcia:");
-                int userId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Podaj ID pracownika do usunięcia:");
+                int employeeId = int.Parse(Console.ReadLine());
 
-                User user = manager.UserList.FirstOrDefault(u => u.UserId == userId);
-                if (user != null)
+                Employee employee = manager.EmployeeList.FirstOrDefault(u => u.Id == employeeId);
+                if (employee != null)
                 {
-                    manager.UserList.Remove(user);
-                    manager.WriteUsersToFile(userFilePath, manager.UserList);
-                    Console.WriteLine("Użytkownik został usunięty.");
+                    manager.EmployeeList.Remove(employee);
+                    manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
+                    Console.WriteLine("Pracownik został usunięty.");
                 }
                 else
                 {
-                    Console.WriteLine("Nie znaleziono użytkownika o podanym ID.");
+                    Console.WriteLine("Nie znaleziono pracownika o podanym ID.");
                 }
             }
             catch (FormatException)

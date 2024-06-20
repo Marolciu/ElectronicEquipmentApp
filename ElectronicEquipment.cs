@@ -4,20 +4,20 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public User AssignedUser { get; set; } // Dodane pole
+        public Employee AssignedEmployee { get; set; }
 
         public ElectronicEquipment() { }
 
-        public ElectronicEquipment(int id, string name, User assignedUser = null)
+        public ElectronicEquipment(int id, string name, Employee assignedEmployee = null)
         {
             Id = id;
             Name = name;
-            AssignedUser = assignedUser;
+            AssignedEmployee = assignedEmployee;
         }
 
         public override string ToString()
         {
-            return $"ID: {Id}, Nazwa: {Name}, Użytkownik: {(AssignedUser != null ? AssignedUser.UserName : "Brak przypisanego użytkownika")}";
+            return $"ID: {Id}, Nazwa: {Name}, Pracownik: {(AssignedEmployee != null ? AssignedEmployee.Name : "Brak przypisanego pracownika")}";
         }
     }
 
@@ -26,8 +26,8 @@
         public string CPU { get; set; }
         public int RAM { get; set; }
 
-        public Computer(int id, string name, string cpu, int ram, User assignedUser = null)
-            : base(id, name, assignedUser)
+        public Computer(int id, string name, string cpu, int ram, Employee assignedEmployee = null)
+            : base(id, name, assignedEmployee)
         {
             CPU = cpu;
             RAM = ram;
@@ -43,8 +43,8 @@
     {
         public int Size { get; set; }
 
-        public Monitor(int id, string name, int size, User assignedUser = null)
-            : base(id, name, assignedUser)
+        public Monitor(int id, string name, int size, Employee assignedEmployee = null)
+            : base(id, name, assignedEmployee)
         {
             Size = size;
         }
@@ -59,8 +59,8 @@
     {
         public string Type { get; set; }
 
-        public Printer(int id, string name, string type, User assignedUser = null)
-            : base(id, name, assignedUser)
+        public Printer(int id, string name, string type, Employee assignedEmployee = null)
+            : base(id, name, assignedEmployee)
         {
             Type = type;
         }
@@ -75,8 +75,8 @@
     {
         public string PhoneNumber { get; set; }
 
-        public Phone(int id, string name, string phoneNumber, User assignedUser = null)
-            : base(id, name, assignedUser)
+        public Phone(int id, string name, string phoneNumber, Employee assignedEmployee = null)
+            : base(id, name, assignedEmployee)
         {
             PhoneNumber = phoneNumber;
         }

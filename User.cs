@@ -1,21 +1,11 @@
 ﻿namespace ElectronicEquipmentApp
 {
-    class User
+    class User : Admin
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string RoomNumber { get; set; }
-
-        public User(int userId, string userName, string roomNumber)
+        public User(int id, string name, string passwordHash)
+            : base(id, name, passwordHash)
         {
-            UserId = userId;
-            UserName = userName;
-            RoomNumber = roomNumber;
-        }
-
-        public override string ToString()
-        {
-            return $"ID: {UserId}, Imię i nazwisko: {UserName}, Numer pokoju: {RoomNumber}";
+            IsAdmin = false;
         }
     }
 }
