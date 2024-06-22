@@ -1,25 +1,221 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.Data.SQLite;
 using System.Linq;
-using System.Numerics;
-using System.Reflection;
 
 namespace ElectronicEquipmentApp
 {
     class EquipmentManager
     {
-        private string employeeFilePath = "employees.txt";
-        private string equipmentFilePath = "equipment.txt";
+        private string connectionString = "Data Source=equipmentApp.db;Version=3;";
 
         public List<Employee> EmployeeList { get; private set; } = new List<Employee>();
         public List<ElectronicEquipment> EquipmentList { get; private set; } = new List<ElectronicEquipment>();
 
         public EquipmentManager()
         {
-            EmployeeList = ReadEmployeesFromFile();
-            EquipmentList = ReadEquipmentFromFile(equipmentFilePath);
+            CreateDatabase();
+            EmployeeList = ReadEmployeesFromDatabase();
+            EquipmentList = ReadEquipmentFromDatabase();
+        }
+
+        private void CreateDatabase()
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string createEmployeeTableQuery = @"CREATE TABLE IF NOT EXISTS Employees (
+                                                    Id INTEGER PRIMARY KEY,
+                                                    Name TEXT,
+                                                    RoomNumber TEXT)";
+                string createEquipmentTableQuery = @"CREATE TABLE IF NOT EXISTS Equipment (
+                                                    Id INTEGER PRIMARY KEY,
+                                                    Name TEXT,
+                                                    Type TEXT,
+                                                    AssignedEmployeeId INTEGER,
+                                                    CPU TEXT,
+                                                    RAM INTEGER,
+                                                    Size INTEGER,
+                                                    PrinterType TEXT,
+                                                    PhoneNumber TEXT)";
+                using (var command = new SQLiteCommand(createEmployeeTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                using (var command = new SQLiteCommand(createEquipmentTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private List<Employee> ReadEmployeesFromDatabase()
+        {
+            List<Employee> employees = new List<Employee>();
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM Employees";
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string roomNumber = reader.GetString(2);
+
+                        employees.Add(new Employee(id, name, roomNumber));
+                    }
+                }
+            }
+
+            return employees;
+        }
+
+        private List<ElectronicEquipment> ReadEquipmentFromDatabase()
+        {
+            List<ElectronicEquipment> equipment = new List<ElectronicEquipment>();
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM Equipment";
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string type = reader.GetString(2);
+                        int? assignedEmployeeId = reader.IsDBNull(3) ? (int?)null : reader.GetInt32(3);
+
+                        Employee assignedEmployee = assignedEmployeeId.HasValue ? EmployeeList.FirstOrDefault(e => e.Id == assignedEmployeeId.Value) : null;
+
+                        ElectronicEquipment equipmentItem = null;
+                        switch (type.ToLower())
+                        {
+                            case "computer":
+                                string cpu = reader.GetString(4);
+                                int ram = reader.GetInt32(5);
+                                equipmentItem = new Computer(id, name, cpu, ram, assignedEmployee);
+                                break;
+                            case "monitor":
+                                int size = reader.GetInt32(6);
+                                equipmentItem = new Monitor(id, name, size, assignedEmployee);
+                                break;
+                            case "printer":
+                                string printerType = reader.GetString(7);
+                                equipmentItem = new Printer(id, name, printerType, assignedEmployee);
+                                break;
+                            case "phone":
+                                string phoneNumber = reader.GetString(8);
+                                equipmentItem = new Phone(id, name, phoneNumber, assignedEmployee);
+                                break;
+                        }
+
+                        equipment.Add(equipmentItem);
+                    }
+                }
+            }
+
+            return equipment;
+        }
+
+        public void WriteEmployeesToDatabase()
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string deleteQuery = "DELETE FROM Employees";
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                foreach (var employee in EmployeeList)
+                {
+                    string insertQuery = "INSERT INTO Employees (Id, Name, RoomNumber) VALUES (@Id, @Name, @RoomNumber)";
+                    using (var command = new SQLiteCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", employee.Id);
+                        command.Parameters.AddWithValue("@Name", employee.Name);
+                        command.Parameters.AddWithValue("@RoomNumber", employee.RoomNumber);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public void WriteEquipmentToDatabase()
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string deleteQuery = "DELETE FROM Equipment";
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                foreach (var equipment in EquipmentList)
+                {
+                    string insertQuery = "INSERT INTO Equipment (Id, Name, Type, AssignedEmployeeId, CPU, RAM, Size, PrinterType, PhoneNumber) " +
+                                         "VALUES (@Id, @Name, @Type, @AssignedEmployeeId, @CPU, @RAM, @Size, @PrinterType, @PhoneNumber)";
+                    using (var command = new SQLiteCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", equipment.Id);
+                        command.Parameters.AddWithValue("@Name", equipment.Name);
+                        command.Parameters.AddWithValue("@Type", equipment.GetType().Name);
+                        command.Parameters.AddWithValue("@AssignedEmployeeId", equipment.AssignedEmployee?.Id ?? (object)DBNull.Value);
+
+                        if (equipment is Computer computer)
+                        {
+                            command.Parameters.AddWithValue("@CPU", computer.CPU);
+                            command.Parameters.AddWithValue("@RAM", computer.RAM);
+                            command.Parameters.AddWithValue("@Size", DBNull.Value);
+                            command.Parameters.AddWithValue("@PrinterType", DBNull.Value);
+                            command.Parameters.AddWithValue("@PhoneNumber", DBNull.Value);
+                        }
+                        else if (equipment is Monitor monitor)
+                        {
+                            command.Parameters.AddWithValue("@CPU", DBNull.Value);
+                            command.Parameters.AddWithValue("@RAM", DBNull.Value);
+                            command.Parameters.AddWithValue("@Size", monitor.Size);
+                            command.Parameters.AddWithValue("@PrinterType", DBNull.Value);
+                            command.Parameters.AddWithValue("@PhoneNumber", DBNull.Value);
+                        }
+                        else if (equipment is Printer printer)
+                        {
+                            command.Parameters.AddWithValue("@CPU", DBNull.Value);
+                            command.Parameters.AddWithValue("@RAM", DBNull.Value);
+                            command.Parameters.AddWithValue("@Size", DBNull.Value);
+                            command.Parameters.AddWithValue("@PrinterType", printer.Type);
+                            command.Parameters.AddWithValue("@PhoneNumber", DBNull.Value);
+                        }
+                        else if (equipment is Phone phone)
+                        {
+                            command.Parameters.AddWithValue("@CPU", DBNull.Value);
+                            command.Parameters.AddWithValue("@RAM", DBNull.Value);
+                            command.Parameters.AddWithValue("@Size", DBNull.Value);
+                            command.Parameters.AddWithValue("@PrinterType", DBNull.Value);
+                            command.Parameters.AddWithValue("@PhoneNumber", phone.PhoneNumber);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@CPU", DBNull.Value);
+                            command.Parameters.AddWithValue("@RAM", DBNull.Value);
+                            command.Parameters.AddWithValue("@Size", DBNull.Value);
+                            command.Parameters.AddWithValue("@PrinterType", DBNull.Value);
+                            command.Parameters.AddWithValue("@PhoneNumber", DBNull.Value);
+                        }
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         public void AddEmployee()
@@ -43,7 +239,7 @@ namespace ElectronicEquipmentApp
 
                 Employee employee = new Employee(employeeId, employeeName, roomNumber);
                 EmployeeList.Add(employee);
-                WriteEmployeesToFile(employeeFilePath, EmployeeList);
+                WriteEmployeesToDatabase();
                 Console.WriteLine("Pracownik został dodany.");
             }
             catch (FormatException)
@@ -81,7 +277,7 @@ namespace ElectronicEquipmentApp
                 }
 
                 equipment.AssignedEmployee = employee;
-                WriteEquipmentToFile(equipmentFilePath, EquipmentList);
+                WriteEquipmentToDatabase();
                 Console.WriteLine("Sprzęt został przypisany pracownikowi.");
             }
             catch (FormatException)
@@ -156,7 +352,7 @@ namespace ElectronicEquipmentApp
                 }
 
                 EquipmentList.Add(equipment);
-                WriteEquipmentToFile(equipmentFilePath, EquipmentList);
+                WriteEquipmentToDatabase();
                 Console.WriteLine("Sprzęt został dodany.");
             }
             catch (FormatException)
@@ -232,7 +428,7 @@ namespace ElectronicEquipmentApp
                         }
                     }
 
-                    WriteEquipmentToFile(equipmentFilePath, EquipmentList);
+                    WriteEquipmentToDatabase();
                     Console.WriteLine("Sprzęt został zaktualizowany.");
                 }
                 else
@@ -321,7 +517,7 @@ namespace ElectronicEquipmentApp
                 if (equipment != null)
                 {
                     EquipmentList.Remove(equipment);
-                    WriteEquipmentToFile(equipmentFilePath, EquipmentList);
+                    WriteEquipmentToDatabase();
                     Console.WriteLine("Sprzęt został usunięty.");
                 }
                 else
@@ -337,177 +533,6 @@ namespace ElectronicEquipmentApp
             {
                 Console.WriteLine($"Wystąpił błąd: {ex.Message}");
             }
-        }
-
-        public List<ElectronicEquipment> ReadEquipmentFromFile(string filePath)
-        {
-            List<ElectronicEquipment> equipmentList = new List<ElectronicEquipment>();
-
-            if (File.Exists(filePath))
-            {
-                string[] lines = File.ReadAllLines(filePath);
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(',');
-
-                    try
-                    {
-                        if (parts.Length >= 5)
-                        {
-                            int id = int.Parse(parts[0]);
-                            string type = parts[1];
-                            string name = parts[2];
-                            Employee employee = null;
-
-                            if (!string.IsNullOrWhiteSpace(parts[3]) && !string.IsNullOrWhiteSpace(parts[4]))
-                            {
-                                int employeeId = int.Parse(parts[3]);
-                                string employeeName = parts[4];
-                                employee = EmployeeList.FirstOrDefault(u => u.Id == employeeId && u.Name == employeeName);
-                                if (employee == null)
-                                {
-                                    employee = new Employee(employeeId, employeeName, "Unknown");
-                                    EmployeeList.Add(employee);
-                                }
-                            }
-
-                            switch (type.ToLower())
-                            {
-                                case "komputer":
-                                    if (parts.Length == 7)
-                                    {
-                                        string cpu = parts[5];
-                                        int ram = int.Parse(parts[6]);
-                                        equipmentList.Add(new Computer(id, name, cpu, ram, employee));
-                                    }
-                                    break;
-                                case "monitor":
-                                    if (parts.Length == 6)
-                                    {
-                                        int size = int.Parse(parts[5]);
-                                        equipmentList.Add(new Monitor(id, name, size, employee));
-                                    }
-                                    break;
-                                case "drukarka":
-                                    if (parts.Length == 6)
-                                    {
-                                        string printerType = parts[5];
-                                        equipmentList.Add(new Printer(id, name, printerType, employee));
-                                    }
-                                    break;
-                                case "telefon":
-                                    if (parts.Length == 6)
-                                    {
-                                        string phoneNumber = parts[5];
-                                        equipmentList.Add(new Phone(id, name, phoneNumber, employee));
-                                    }
-                                    break;
-                                default:
-                                    Console.WriteLine($"Nieoczekiwany typ sprzętu: {type}");
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Nieoczekiwany format danych w linii: {line}");
-                        }
-                    }
-                    catch (FormatException ex)
-                    {
-                        Console.WriteLine($"Błąd formatu w linii: {line}. Szczegóły: {ex.Message}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Błąd podczas przetwarzania linii: {line}. Szczegóły: {ex.Message}");
-                    }
-                }
-            }
-
-            return equipmentList;
-        }
-
-        public List<Employee> ReadEmployeesFromFile()
-        {
-            List<Employee> employeeList = new List<Employee>();
-
-            if (File.Exists(employeeFilePath))
-            {
-                string[] lines = File.ReadAllLines(employeeFilePath);
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(',');
-
-                    try
-                    {
-                        if (parts.Length == 3)
-                        {
-                            int employeeId = int.Parse(parts[0]);
-                            string employeeName = parts[1];
-                            string roomNumber = parts[2];
-                            employeeList.Add(new Employee(employeeId, employeeName, roomNumber));
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Nieoczekiwany format danych w linii: {line}");
-                        }
-                    }
-                    catch (FormatException ex)
-                    {
-                        Console.WriteLine($"Błąd formatu w linii: {line}. Szczegóły: {ex.Message}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Błąd podczas przetwarzania linii: {line}. Szczegóły: {ex.Message}");
-                    }
-                }
-            }
-
-            return employeeList;
-        }
-
-        public void WriteEquipmentToFile(string filePath, List<ElectronicEquipment> equipmentList)
-        {
-            List<string> lines = new List<string>();
-            foreach (var equipment in equipmentList)
-            {
-                if (equipment is Computer computer)
-                {
-                    string line = $"{computer.Id},Komputer,{computer.Name},{computer.AssignedEmployee?.Id},{computer.AssignedEmployee?.Name},{computer.CPU},{computer.RAM}";
-                    lines.Add(line);
-                }
-                else if (equipment is Monitor monitor)
-                {
-                    string line = $"{monitor.Id},Monitor,{monitor.Name},{monitor.AssignedEmployee?.Id},{monitor.AssignedEmployee?.Name},{monitor.Size}";
-                    lines.Add(line);
-                }
-                else if (equipment is Printer printer)
-                {
-                    string line = $"{printer.Id},Drukarka,{printer.Name},{printer.AssignedEmployee?.Id},{printer.AssignedEmployee?.Name},{printer.Type}";
-                    lines.Add(line);
-                }
-                else if (equipment is Phone phone)
-                {
-                    string line = $"{phone.Id},Telefon,{phone.Name},{phone.AssignedEmployee?.Id},{phone.AssignedEmployee?.Name},{phone.PhoneNumber}";
-                    lines.Add(line);
-                }
-                else
-                {
-                    string line = $"{equipment.Id},Nieznany,{equipment.Name},{equipment.AssignedEmployee?.Id},{equipment.AssignedEmployee?.Name}";
-                    lines.Add(line);
-                }
-            }
-            File.WriteAllLines(filePath, lines);
-        }
-
-        public void WriteEmployeesToFile(string filePath, List<Employee> employeeList)
-        {
-            List<string> lines = new List<string>();
-            foreach (var employee in employeeList)
-            {
-                string line = $"{employee.Id},{employee.Name},{employee.RoomNumber}";
-                lines.Add(line);
-            }
-            File.WriteAllLines(filePath, lines);
         }
     }
 }

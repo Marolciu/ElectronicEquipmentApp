@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data.SQLite;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,12 +9,89 @@ namespace ElectronicEquipmentApp
 {
     class LoginAndPersonManager
     {
-        private string filePath = "persons.txt";
+        private string connectionString = "Data Source=equipmentApp.db;Version=3;";
         private List<Persons> personList;
 
         public LoginAndPersonManager()
         {
-            personList = ReadPersonsFromFile();
+            CreateDatabase();
+            personList = ReadPersonsFromDatabase();
+        }
+
+        private void CreateDatabase()
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string createTableQuery = @"CREATE TABLE IF NOT EXISTS Persons (
+                                            Id INTEGER PRIMARY KEY,
+                                            Name TEXT,
+                                            PasswordHash TEXT,
+                                            IsAdmin INTEGER)";
+                using (var command = new SQLiteCommand(createTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private List<Persons> ReadPersonsFromDatabase()
+        {
+            List<Persons> persons = new List<Persons>();
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM Persons";
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string passwordHash = reader.GetString(2);
+                        bool isAdmin = reader.GetInt32(3) == 1;
+
+                        if (isAdmin)
+                        {
+                            persons.Add(new Admin(id, name, passwordHash));
+                        }
+                        else
+                        {
+                            persons.Add(new User(id, name, passwordHash));
+                        }
+                    }
+                }
+            }
+
+            return persons;
+        }
+
+        private void WritePersonsToDatabase()
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string deleteQuery = "DELETE FROM Persons";
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                foreach (var person in personList)
+                {
+                    string insertQuery = "INSERT INTO Persons (Id, Name, PasswordHash, IsAdmin) VALUES (@Id, @Name, @PasswordHash, @IsAdmin)";
+                    using (var command = new SQLiteCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", person.Id);
+                        command.Parameters.AddWithValue("@Name", person.Name);
+                        command.Parameters.AddWithValue("@PasswordHash", person.PasswordHash);
+                        command.Parameters.AddWithValue("@IsAdmin", person.IsAdmin ? 1 : 0);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         public void Register(bool isAdmin = true)
@@ -47,7 +124,7 @@ namespace ElectronicEquipmentApp
             }
 
             personList.Add(person);
-            WritePersonsToFile();
+            WritePersonsToDatabase();
 
             Console.WriteLine("Rejestracja zakończona sukcesem.");
         }
@@ -68,50 +145,6 @@ namespace ElectronicEquipmentApp
             }
 
             return person;
-        }
-
-        private List<Persons> ReadPersonsFromFile()
-        {
-            List<Persons> persons = new List<Persons>();
-
-            if (File.Exists(filePath))
-            {
-                string[] lines = File.ReadAllLines(filePath);
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(',');
-                    if (parts.Length == 4)
-                    {
-                        int id = int.Parse(parts[0]);
-                        string name = parts[1];
-                        string passwordHash = parts[2];
-                        bool isAdmin = bool.Parse(parts[3]);
-
-                        if (isAdmin)
-                        {
-                            persons.Add(new Admin(id, name, passwordHash));
-                        }
-                        else
-                        {
-                            persons.Add(new User(id, name, passwordHash));
-                        }
-                    }
-                }
-            }
-
-            return persons;
-        }
-
-        private void WritePersonsToFile()
-        {
-            List<string> lines = new List<string>();
-
-            foreach (Persons person in personList)
-            {
-                lines.Add(person.ToString());
-            }
-
-            File.WriteAllLines(filePath, lines);
         }
 
         private string HashPassword(string password)

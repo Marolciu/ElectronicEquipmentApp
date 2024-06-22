@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ElectronicEquipmentApp
 {
     class Program
     {
-        static string equipmentFilePath = "equipment.txt";
-        static string employeeFilePath = "employees.txt";
         static EquipmentManager manager = new EquipmentManager();
         static LoginAndPersonManager adminManager = new LoginAndPersonManager();
         static bool hasSavedChanges = false;
@@ -84,8 +81,8 @@ namespace ElectronicEquipmentApp
             string response = Console.ReadLine().ToLower();
             if (response == "t")
             {
-                manager.WriteEquipmentToFile(equipmentFilePath, manager.EquipmentList);
-                manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
+                manager.WriteEquipmentToDatabase();
+                manager.WriteEmployeesToDatabase();
                 Console.WriteLine("Dane zostały zapisane.");
             }
             else
@@ -394,7 +391,7 @@ namespace ElectronicEquipmentApp
                         employee.RoomNumber = newRoomNumber;
                     }
 
-                    manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
+                    manager.WriteEmployeesToDatabase();
                     Console.WriteLine("Pracownik został zaktualizowany.");
                 }
                 else
@@ -423,7 +420,7 @@ namespace ElectronicEquipmentApp
                 if (employee != null)
                 {
                     manager.EmployeeList.Remove(employee);
-                    manager.WriteEmployeesToFile(employeeFilePath, manager.EmployeeList);
+                    manager.WriteEmployeesToDatabase();
                     Console.WriteLine("Pracownik został usunięty.");
                 }
                 else
