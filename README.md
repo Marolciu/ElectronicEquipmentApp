@@ -4,30 +4,29 @@
 Program ElectronicEquipmentApp jest aplikacją konsolową do zarządzania elektronicznym sprzętem i personelem w organizacji. Użytkownicy mogą logować się jako administratorzy lub zwykli użytkownicy, co determinuje zakres dostępnych opcji. Program oferuje różne menu i funkcje w zależności od roli użytkownika, w tym rejestrację, logowanie, zarządzanie sprzętem i pracownikami oraz wyszukiwanie informacji. Administratorzy mają pełny dostęp do wszystkich funkcji, podczas gdy zwykli użytkownicy mogą jedynie przeglądać dane sprzętu i jego przypisania.
 
 ## Funkcje aplikacji
-1. Rejestracja użytkowników
-Rejestracja Administratora: Umożliwia rejestrację nowego administratora, który będzie miał pełne uprawnienia do zarządzania aplikacją.
-Rejestracja Użytkownika: Umożliwia rejestrację nowego użytkownika z ograniczonymi uprawnieniami, głównie do przeglądania informacji.
-2. Logowanie
-Autentykacja: Użytkownicy mogą logować się do systemu, używając unikalnego ID i hasła.
-3. Zarządzanie sprzętem
-Dodawanie sprzętu: Możliwość dodania nowego sprzętu do systemu, wraz z szczegółowymi informacjami takimi jak typ, nazwa, parametry techniczne.
-Edycja sprzętu: Aktualizacja danych dotyczących już zarejestrowanego sprzętu.
-Przypisywanie sprzętu do pracowników: Możliwość przypisania sprzętu do konkretnego pracownika.
-Usuwanie sprzętu: Usunięcie sprzętu z systemu, jeżeli nie jest już używany.
-4. Zarządzanie pracownikami
-Dodawanie pracowników: Rejestracja nowych pracowników, w tym wprowadzenie ich danych osobowych i numeru pokoju.
-Edycja danych pracowników: Aktualizacja istniejących danych pracowników.
-Usuwanie pracowników: Usunięcie pracownika z systemu, możliwe tylko jeśli do pracownika nie jest przypisany żaden sprzęt.
-5. Wyszukiwanie
-Wyszukiwanie sprzętu: Możliwość wyszukania sprzętu na podstawie pełnego lub częściowego ID.
-Wyświetlanie sprzętu przypisanego do pracownika: Wyświetlanie listy sprzętu przypisanego do wybranego pracownika.
-6. Bezpieczeństwo
-Haszowanie haseł: Użycie funkcji haszujących do bezpiecznego przechowywania haseł użytkowników.
-Ochrona dostępu: Ograniczenie dostępu do funkcji zarządzania w zależności od roli użytkownika (admin vs. zwykły użytkownik).
-7. Zapisywanie danych
-Dane są zapisywane przy zamykaniu aplikacji, z opcją akceptacji dokonanych zmian w momencie kończenia pracy w aplikacji.
-8. Zarządzanie zmianami
-Monitorowanie zmian: System monitoruje wszelkie zmiany w danych i informuje użytkownika o konieczności ich zapisania przed wyjściem.
+Rejestracja i logowanie:
+Użytkownik może zarejestrować się jako administrator lub zwykły użytkownik.
+Logowanie za pomocą ID i hasła, które jest hashowane dla bezpieczeństwa.
+
+Zarządzanie pracownikami:
+Dodawanie nowych pracowników z unikalnym ID, imieniem i nazwiskiem oraz numerem pokoju.
+Edytowanie informacji o istniejących pracownikach, takich jak imię, nazwisko i numer pokoju.
+Usuwanie pracowników z systemu (jeśli nie mają przypisanego sprzętu).
+
+Zarządzanie sprzętem elektronicznym:
+Dodawanie nowego sprzętu z unikalnym ID, nazwą i specyficznymi właściwościami (np. CPU i RAM dla komputerów, rozmiar dla monitorów).
+Edytowanie informacji o istniejącym sprzęcie.
+Usuwanie sprzętu z systemu.
+Przypisywanie sprzętu do pracowników lub zmiana przypisania.
+Przeglądanie i wyszukiwanie sprzętu:
+
+Wyszukiwanie sprzętu po ID lub części ID.
+Wyświetlanie listy sprzętu przypisanego do konkretnego pracownika.
+Zapisywanie i odczytywanie danych z bazy danych:
+
+Przechowywanie informacji o pracownikach i sprzęcie w bazie SQLite.
+Automatyczne tworzenie struktury bazy danych przy pierwszym uruchomieniu aplikacji.
+Zapis zmian w bazie danych, w tym dodawanie, edytowanie i usuwanie rekordów.
 
 ## Opis klas
 Klasa Persons: Przechowują informacje o osobach, w tym identyfikator, imię i nazwisko, hasło oraz status administratora.
