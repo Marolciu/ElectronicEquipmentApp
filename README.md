@@ -4,19 +4,30 @@
 ElectronicEquipmentApp to aplikacja konsolowa napisana w języku C#, która służy do zarządzania sprzętem elektronicznym w firmie. Aplikacja pozwala na rejestrowanie i logowanie administratorów, dodawanie, usuwanie i edytowanie sprzętu takiego jak telefony, komputery, drukarki i monitory oraz przypisywanie go do użytkowników. Program ma za zadanie ułatwiać inwentaryzację i kontrolę nad tym, kto jest w posiadaniu konkretnego urządzenia. Aplikacje umożliwia również wyświetlanie wszystkiego co znajduje się na "stanie" osoby której wydano sprzęt firmowy w celu realizacji zadań związanych z pracą w organizacji. Informacje zapisywane są w plikach .txt Program będzie sukcesywnie rozbudowywany o nowe funkcje i właściwości.
 
 ## Funkcje aplikacji
-- **Rejestracja i logowanie administratorów**: Administratorzy mogą rejestrować się i logować do systemu, aby zarządzać sprzętem i użytkownikami.
-- **Zarządzanie sprzętem**:
-  - Dodawanie nowego sprzętu (komputery, monitory, drukarki, telefony).
-  - Edytowanie istniejącego sprzętu.
-  - Przypisywanie sprzętu do użytkowników.
-  - Usuwanie sprzętu.
-- **Zarządzanie użytkownikami**:
-  - Dodawanie nowych użytkowników.
-  - Edytowanie danych użytkowników.
-  - Usuwanie użytkowników (jeśli nie mają przypisanego sprzętu).
-- **Wyszukiwanie sprzętu**:
-  - Wyszukiwanie sprzętu po pełnym lub częściowym ID.
-  - Wyświetlanie sprzętu przypisanego do użytkownika.
+1. Rejestracja użytkowników
+Rejestracja Administratora: Umożliwia rejestrację nowego administratora, który będzie miał pełne uprawnienia do zarządzania aplikacją.
+Rejestracja Użytkownika: Umożliwia rejestrację nowego użytkownika z ograniczonymi uprawnieniami, głównie do przeglądania informacji.
+2. Logowanie
+Autentykacja: Użytkownicy mogą logować się do systemu, używając unikalnego ID i hasła.
+3. Zarządzanie sprzętem
+Dodawanie sprzętu: Możliwość dodania nowego sprzętu do systemu, wraz z szczegółowymi informacjami takimi jak typ, nazwa, parametry techniczne.
+Edycja sprzętu: Aktualizacja danych dotyczących już zarejestrowanego sprzętu.
+Przypisywanie sprzętu do pracowników: Możliwość przypisania sprzętu do konkretnego pracownika.
+Usuwanie sprzętu: Usunięcie sprzętu z systemu, jeżeli nie jest już używany.
+4. Zarządzanie pracownikami
+Dodawanie pracowników: Rejestracja nowych pracowników, w tym wprowadzenie ich danych osobowych i numeru pokoju.
+Edycja danych pracowników: Aktualizacja istniejących danych pracowników.
+Usuwanie pracowników: Usunięcie pracownika z systemu, możliwe tylko jeśli do pracownika nie jest przypisany żaden sprzęt.
+5. Wyszukiwanie
+Wyszukiwanie sprzętu: Możliwość wyszukania sprzętu na podstawie pełnego lub częściowego ID.
+Wyświetlanie sprzętu przypisanego do pracownika: Wyświetlanie listy sprzętu przypisanego do wybranego pracownika.
+6. Bezpieczeństwo
+Haszowanie haseł: Użycie funkcji haszujących do bezpiecznego przechowywania haseł użytkowników.
+Ochrona dostępu: Ograniczenie dostępu do funkcji zarządzania w zależności od roli użytkownika (admin vs. zwykły użytkownik).
+7. Zapisywanie danych
+Dane są zapisywane przy zamykaniu aplikacji, z opcją akceptacji dokonanych zmian w momencie kończenia pracy w aplikacji.
+8. Zarządzanie zmianami
+Monitorowanie zmian: System monitoruje wszelkie zmiany w danych i informuje użytkownika o konieczności ich zapisania przed wyjściem.
 
 ## Jak uruchomić
 
