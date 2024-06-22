@@ -8,12 +8,12 @@ namespace ElectronicEquipmentApp
         static string equipmentFilePath = "equipment.txt";
         static string employeeFilePath = "employees.txt";
         static EquipmentManager manager = new EquipmentManager();
-        static AdminManager adminManager = new AdminManager();
+        static LoginAndPersonManager adminManager = new LoginAndPersonManager();
         static bool hasSavedChanges = false;
 
         static void Main(string[] args)
         {
-            Person currentPerson = null;
+            Persons currentPerson = null;
             while (currentPerson == null)
             {
                 Console.WriteLine("Witaj w ElectronicEquipmentApp:");

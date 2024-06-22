@@ -1,13 +1,13 @@
 ﻿namespace ElectronicEquipmentApp
 {
-    class Person
+    class Persons
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string PasswordHash { get; set; }
         public bool IsAdmin { get; set; }
 
-        public Person(int id, string name, string passwordHash, bool isAdmin)
+        public Persons(int id, string name, string passwordHash, bool isAdmin)
         {
             Id = id;
             Name = name;
@@ -20,7 +20,7 @@
             return $"{Id},{Name},{PasswordHash},{IsAdmin}";
         }
     }
-    class Admin : Person
+    class Admin : Persons
     {
         public Admin(int id, string name, string passwordHash)
             : base(id, name, passwordHash, true)
@@ -35,7 +35,7 @@
             IsAdmin = false;
         }
     }
-    class Employee : Person
+    class Employee : Persons
     {
         public string RoomNumber { get; set; }
 

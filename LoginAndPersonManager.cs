@@ -7,12 +7,12 @@ using System.Text;
 
 namespace ElectronicEquipmentApp
 {
-    class AdminManager
+    class LoginAndPersonManager
     {
         private string filePath = "persons.txt";
-        private List<Person> personList;
+        private List<Persons> personList;
 
-        public AdminManager()
+        public LoginAndPersonManager()
         {
             personList = ReadPersonsFromFile();
         }
@@ -36,7 +36,7 @@ namespace ElectronicEquipmentApp
 
             string passwordHash = HashPassword(password);
 
-            Person person;
+            Persons person;
             if (isAdmin)
             {
                 person = new Admin(id, name, passwordHash);
@@ -52,7 +52,7 @@ namespace ElectronicEquipmentApp
             Console.WriteLine("Rejestracja zakończona sukcesem.");
         }
 
-        public Person Login()
+        public Persons Login()
         {
             Console.WriteLine("Podaj ID:");
             int id = int.Parse(Console.ReadLine());
@@ -61,7 +61,7 @@ namespace ElectronicEquipmentApp
             string password = ReadPassword();
 
             string passwordHash = HashPassword(password);
-            Person person = personList.FirstOrDefault(p => p.Id == id && p.PasswordHash == passwordHash);
+            Persons person = personList.FirstOrDefault(p => p.Id == id && p.PasswordHash == passwordHash);
             if (person == null)
             {
                 Console.WriteLine("Nieprawidłowe ID lub hasło.");
@@ -70,9 +70,9 @@ namespace ElectronicEquipmentApp
             return person;
         }
 
-        private List<Person> ReadPersonsFromFile()
+        private List<Persons> ReadPersonsFromFile()
         {
-            List<Person> persons = new List<Person>();
+            List<Persons> persons = new List<Persons>();
 
             if (File.Exists(filePath))
             {
@@ -106,7 +106,7 @@ namespace ElectronicEquipmentApp
         {
             List<string> lines = new List<string>();
 
-            foreach (Person person in personList)
+            foreach (Persons person in personList)
             {
                 lines.Add(person.ToString());
             }
