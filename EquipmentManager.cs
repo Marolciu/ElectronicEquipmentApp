@@ -483,7 +483,7 @@ namespace ElectronicEquipmentApp
 
         public void DisplayEquipmentTable(List<ElectronicEquipment> equipmentList)
         {
-            string header = "| {0,-8} | {1,-18} | {2,-11} | {3,-18} | {4,-12} | {5,-4} | {6,-7} | {7,-15} | {8,-16} |";
+            string header = "| {0,-10} | {1,-18} | {2,-11} | {3,-20} | {4,-8} | {5,-4} | {6,-7} | {7,-15} | {8,-16} |";
             string separator = new string('-', 137);
 
             Console.WriteLine(separator);
