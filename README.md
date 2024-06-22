@@ -59,10 +59,10 @@ Po zalogowaniu dostępne jest menu główne:
 > Wyświetlanie sprzętu przypisanego do użytkownika.
 Wyjście: Zakończenie działania aplikacji.
 
-## Przykład użycia
+Przykład użycia
 
-### Rejestracja i logowanie
-```plaintext
+Rejestracja i logowanie
+
 > Wybierz opcję Rejestracja i utwórz konto administratora podając 6-cyfrowe ID (Twój login jest to kolejno pierwsze 6 cyfr z numeru PESEL RRMMDD)
 > Podaj Imię i Nazwisko
 > Utwórz swoje własne unikatowe hasło logowania.
@@ -72,4 +72,98 @@ Wyjście: Zakończenie działania aplikacji.
 > Otwórz menu sprzęt i przypisz sprzęt do użytkownika.
 > Teraz moższ skorzystać z menu i wyszukać sprzęt przypisany do użytkownika.
 > Aby poprawnie zamknąć program i zapisać zmiany w menu głównym wybierz opcję Wyjście oraz potwierdź zapisanie zmian klikając t i zatwierdź enter.
+
+### Zastosowanie elementów programowania obiektowego:
+
+Dziedziczenie: Główną klasą dla której zastosowano dziedziczenie jest klasa ElectronicEquipment. Jest ona klasą bazową dla pozostałych takich jak Komputer, Monitor, Drukarka i Telefon.
+class ElectronicEquipment
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public Employee AssignedEmployee { get; set; }
+
+    public ElectronicEquipment() { }
+
+    public ElectronicEquipment(int id, string name, Employee assignedEmployee = null)
+    {
+        Id = id;
+        Name = name;
+        AssignedEmployee = assignedEmployee;
+    }
+
+    public override string ToString()
+    {
+        return $"ID: {Id}, Nazwa: {Name}, Pracownik: {(AssignedEmployee != null ? AssignedEmployee.Name : "Brak przypisanego pracownika")}";
+    }
+}
+
+class Computer : ElectronicEquipment
+{
+    public string CPU { get; set; }
+    public int RAM { get; set; }
+
+    public Computer(int id, string name, string cpu, int ram, Employee assignedEmployee = null)
+        : base(id, name, assignedEmployee)
+    {
+        CPU = cpu;
+        RAM = ram;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $", CPU: {CPU}, RAM: {RAM} GB";
+    }
+}
+
+class Monitor : ElectronicEquipment
+{
+    public int Size { get; set; }
+
+    public Monitor(int id, string name, int size, Employee assignedEmployee = null)
+        : base(id, name, assignedEmployee)
+    {
+        Size = size;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $", Rozmiar: {Size} cali";
+    }
+}
+
+class Printer : ElectronicEquipment
+{
+    public string Type { get; set; }
+
+    public Printer(int id, string name, string type, Employee assignedEmployee = null)
+        : base(id, name, assignedEmployee)
+    {
+        Type = type;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $", Typ drukarki: {Type}";
+    }
+}
+
+class Phone : ElectronicEquipment
+{
+    public string PhoneNumber { get; set; }
+
+    public Phone(int id, string name, string phoneNumber, Employee assignedEmployee = null)
+        : base(id, name, assignedEmployee)
+    {
+        PhoneNumber = phoneNumber;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $", Numer telefonu: {PhoneNumber}";
+    }
+}
+
+
+
+
 
