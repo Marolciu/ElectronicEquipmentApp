@@ -72,9 +72,10 @@ Rejestracja i logowanie
 > Otwórz menu sprzęt i przypisz sprzęt do użytkownika.
 > Teraz moższ skorzystać z menu i wyszukać sprzęt przypisany do użytkownika.
 > Aby poprawnie zamknąć program i zapisać zmiany w menu głównym wybierz opcję Wyjście oraz potwierdź zapisanie zmian klikając t i zatwierdź enter.
+```plaintext
 
 ### Zastosowanie elementów programowania obiektowego:
-
+```plaintext
 Dziedziczenie: Główną klasą dla której zastosowano dziedziczenie jest klasa ElectronicEquipment. Jest ona klasą bazową dla pozostałych takich jak Komputer, Monitor, Drukarka i Telefon.
 class ElectronicEquipment
 {
