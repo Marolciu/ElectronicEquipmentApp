@@ -55,6 +55,14 @@ Metody ReadPersonsFromFile i WritePersonsToFile działają na obiektach typu Per
 Przykład w EquipmentManager.cs:
 Metody ReadEquipmentFromFile i WriteEquipmentToFile działają na obiektach typu ElectronicEquipment, ale mogą operować na instancjach klas pochodnych Computer, Monitor, Printer, i Phone.
 
+Hermetyzacja: Została wykorzystana w klasach takich jak Person, Admin Manager i Equipment Manager.
+
+Person: W tej klasie pola takie jak Id, Name, PasswordHash, i IsAdmin są hermetyzowane poprzez właściwości public z akcesorami get i set, które pozwalają na kontrolowanie dostępu i manipulację wartościami z zewnątrz klasy. Konstruktor klasy inicjalizuje te właściwości, zapewniając bezpieczne ustawianie wartości przy tworzeniu obiektu.
+
+AdminManager: W tej klasie użyto prywatnych pól, takich jak filePath i personList, do przechowywania ścieżki do pliku i listy osób, co zapobiega bezpośredniemu dostępowi i modyfikacji tych pól z zewnątrz klasy. Prywatne metody ReadPersonsFromFile i WritePersonsToFile służą do hermetyzacji logiki odczytu i zapisu danych, co zwiększa bezpieczeństwo danych i utrzymuje klarowność interfejsów publicznych klasy.
+
+EquipmentManager: Hermetyzacja w tej klasie manifestuje się poprzez użycie prywatnego pola equipmentFilePath oraz prywatnego settera dla właściwości EquipmentList, co ogranicza możliwość modyfikacji listy sprzętów bezpośrednio z zewnątrz klasy. Metoda ReadEquipmentFromFile jest prywatna, chroniąc logikę wczytywania danych przed dostępem zewnętrznym.
+
 ### Obsługa programu
 ```plaintext
 1. Rejestracja administratora: Pozwala na utworzenie nowego konta administratora.
