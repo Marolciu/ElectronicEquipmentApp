@@ -77,7 +77,7 @@ Klasa Persons jest bazową klasą dla Admin i User.
 Admin dziedziczy po Persons i automatycznie ustawia wartość IsAdmin na true.
 User dziedziczy po Admin i zmienia wartość IsAdmin na false.
 
-(https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/img/Zrzut%20ekranu%202024-06-22%20192630.png?raw=true)
+![Obraz1](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/img/Zrzut%20ekranu%202024-06-22%20192630.png?raw=true)
 
 Klasa ElectronicEquipment i jej podklasy:
 
