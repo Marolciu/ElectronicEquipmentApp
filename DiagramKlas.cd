@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ElectronicEquipmentApp.ElectronicEquipment" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ElectronicEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Computer" Collapsed="true">
+    <Position X="5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ElectronicEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Monitor" Collapsed="true">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ElectronicEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Printer" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ElectronicEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Phone" Collapsed="true">
+    <Position X="2.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ElectronicEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.EquipmentManager" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAGCIAgABAAgAQAAADAgEAAAAIBAAAAAAAAAAAAA=</HashCode>
+      <FileName>EquipmentManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.LoginAndPersonManager" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAgAEAAAEQAEAEABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>LoginAndPersonManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Persons" Collapsed="true">
+    <Position X="3.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAAAAAAAAEAAAAAAQACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Admin" Collapsed="true">
+    <Position X="2.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.User" Collapsed="true">
+    <Position X="2.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Employee" Collapsed="true">
+    <Position X="4.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElectronicEquipmentApp.Program" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgQAAggIAIABAAAAQAABEAAQAAAAAAIAYBAIAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
