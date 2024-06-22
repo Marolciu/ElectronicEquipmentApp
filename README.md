@@ -43,6 +43,17 @@ Marcin Krutak
 ## Zastosowanie elementów programowania obiektowego:
 Dziedziczenie: Główną klasą dla której zastosowano dziedziczenie jest klasa ElectronicEquipment. Jest ona klasą bazową dla pozostałych takich jak Komputer, Monitor, Drukarka i Telefon. Podobny zabieg zastosowałem podczas tworzenia głównej klasy Person do której należą podklasy takie jak Admin i User są to klasy które odpowiadają za użytkowników programu Admin ma wszystkie uprawnienia dodawania, edycji, przypisywania sprzętu i usuwania rekordów, za to User może tylko wyszukiwać informacje o sprzęcie i pracownikach go użytkujących. Podklasa Employee określa pracownika któremu można przypisać sprzęt.
 
+Polimorfizm: Polimorfizm został wykorzystany poprzez Przesłanianie metod i Dynamiczne wiązanie.
+
+W przypadku przesyłania metod Metoda ToString() jest przesłonięta w kilku klasach, co jest przykładem polimorfizmu. Każda klasa implementuje własną wersję tej metody, co pozwala na różne reprezentacje obiektów podczas konwersji do łańcucha znaków.
+
+W przypadku Dynamicznego wiązania występuje ono w klasach zarządzających, takich jak AdminManager i EquipmentManager, stosuje się listy oraz metody operujące na bazowych klasach (Person, ElectronicEquipment). Dzięki temu można przechowywać obiekty pochodnych klas i wywoływać na nich metody w sposób polimorficzny.
+
+Przykład w AdminManager.cs:
+Metody ReadPersonsFromFile i WritePersonsToFile działają na obiektach typu Person, ale mogą operować na instancjach klas pochodnych Admin i User.
+
+Przykład w EquipmentManager.cs:
+Metody ReadEquipmentFromFile i WriteEquipmentToFile działają na obiektach typu ElectronicEquipment, ale mogą operować na instancjach klas pochodnych Computer, Monitor, Printer, i Phone.
 
 ### Obsługa programu
 ```plaintext
