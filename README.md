@@ -1,7 +1,7 @@
-# ElectronicEquipmentApp
+# Tytuł projektu: ElectronicEquipmentApp
 
-## Opis programu
-Program ElectronicEquipmentApp jest aplikacją konsolową do zarządzania elektronicznym sprzętem i personelem w organizacji. Użytkownicy mogą logować się jako administratorzy lub zwykli użytkownicy, co determinuje zakres dostępnych opcji. Program oferuje różne menu i funkcje w zależności od roli użytkownika, w tym rejestrację, logowanie, zarządzanie sprzętem i pracownikami oraz wyszukiwanie informacji. Administratorzy mają pełny dostęp do wszystkich funkcji, podczas gdy zwykli użytkownicy mogą przeglądać dane sprzętu i przypisania.
+## Opis implementacji
+Program ElectronicEquipmentApp jest aplikacją konsolową do zarządzania elektronicznym sprzętem i personelem w organizacji. Użytkownicy mogą logować się jako administratorzy lub zwykli użytkownicy, co determinuje zakres dostępnych opcji. Program oferuje różne menu i funkcje w zależności od roli użytkownika, w tym rejestrację, logowanie, zarządzanie sprzętem i pracownikami oraz wyszukiwanie informacji. Administratorzy mają pełny dostęp do wszystkich funkcji, podczas gdy zwykli użytkownicy mogą jedynie przeglądać dane sprzętu i jego przypisania.
 
 ## Funkcje aplikacji
 1. Rejestracja użytkowników
@@ -28,6 +28,25 @@ Ochrona dostępu: Ograniczenie dostępu do funkcji zarządzania w zależności o
 Dane są zapisywane przy zamykaniu aplikacji, z opcją akceptacji dokonanych zmian w momencie kończenia pracy w aplikacji.
 8. Zarządzanie zmianami
 Monitorowanie zmian: System monitoruje wszelkie zmiany w danych i informuje użytkownika o konieczności ich zapisania przed wyjściem.
+
+## Opis klas
+Klasa Persons: Przechowują informacje o osobach, w tym identyfikator, imię i nazwisko, hasło oraz status administratora.
+Podklasy, Admin, User, Employee.
+
+Klasa ElectronicEquipment: Przechowuje każdy rodzaj sprzętu oraz jego specyficzne właściwości, np. CPU i RAM dla komputerów lub numer telefonu dla podklasy Phone.
+Podklasy, Computer, Monitor, Printer, Phone.
+
+LoginAndPersonManager.cs
+Zarządza rejestracją, logowaniem i operacjami na osobach.
+Używa SQLite do przechowywania danych użytkowników w bazie danych.
+
+EquipmentManager.cs
+Zarządza dodawaniem, edytowaniem, usuwaniem i przypisywaniem sprzętu do pracowników.
+Przechowuje informacje o sprzęcie i pracownikach w bazie SQLite.
+
+Program.cs
+Główna klasa uruchamiająca aplikację, zawierająca menu główne i obsługę wyborów użytkownika.
+Obsługuje zarówno interfejs dla administratora, jak i użytkownika.
 
 ## Jak uruchomić
 
