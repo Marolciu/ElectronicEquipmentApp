@@ -20,4 +20,34 @@
             return $"{Id},{Name},{PasswordHash},{IsAdmin}";
         }
     }
+    class Admin : Person
+    {
+        public Admin(int id, string name, string passwordHash)
+            : base(id, name, passwordHash, true)
+        {
+        }
+    }
+    class User : Admin
+    {
+        public User(int id, string name, string passwordHash)
+            : base(id, name, passwordHash)
+        {
+            IsAdmin = false;
+        }
+    }
+    class Employee : Person
+    {
+        public string RoomNumber { get; set; }
+
+        public Employee(int id, string name, string roomNumber)
+            : base(id, name, null, false)  // Pracownik nie loguje się do programu (Jest tylko rekordem który można łączyć ze sprzętem.)
+        {
+            RoomNumber = roomNumber;
+        }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}, Imię i nazwisko: {Name}, Numer pokoju: {RoomNumber}";
+        }
+    }
 }
