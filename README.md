@@ -67,59 +67,34 @@ Ten projekt jest licencjonowany na licencji GNU GENERAL PUBLIC LICENSE Version 3
 Marcin Krutak
 
 ## Zastosowanie elementów programowania obiektowego:
-Dziedziczenie: Główną klasą dla której zastosowano dziedziczenie jest klasa ElectronicEquipment. Jest ona klasą bazową dla pozostałych takich jak Komputer, Monitor, Drukarka i Telefon. Podobny zabieg zastosowałem podczas tworzenia głównej klasy Person do której należą podklasy takie jak Admin i User są to klasy które odpowiadają za użytkowników programu Admin ma wszystkie uprawnienia dodawania, edycji, przypisywania sprzętu i usuwania rekordów, za to User może tylko wyszukiwać informacje o sprzęcie i pracownikach go użytkujących. Podklasa Employee określa pracownika któremu można przypisać sprzęt.
 
-Polimorfizm: Polimorfizm został wykorzystany poprzez Przesłanianie metod i Dynamiczne wiązanie.
+Dziedziczenie
+Dziedziczenie pozwala tworzyć nowe klasy na podstawie już istniejących, co umożliwia ponowne wykorzystanie kodu i tworzenie hierarchii klas.
 
-W przypadku przesyłania metod Metoda ToString() jest przesłonięta w kilku klasach, co jest przykładem polimorfizmu. Każda klasa implementuje własną wersję tej metody, co pozwala na różne reprezentacje obiektów podczas konwersji do łańcucha znaków.
+Klasa Persons i jej podklasy:
 
-W przypadku Dynamicznego wiązania występuje ono w klasach zarządzających, takich jak AdminManager i EquipmentManager, stosuje się listy oraz metody operujące na bazowych klasach (Person, ElectronicEquipment). Dzięki temu można przechowywać obiekty pochodnych klas i wywoływać na nich metody w sposób polimorficzny.
+Klasa Persons jest bazową klasą dla Admin i User.
+Admin dziedziczy po Persons i automatycznie ustawia wartość IsAdmin na true.
+User dziedziczy po Admin i zmienia wartość IsAdmin na false.
 
-Przykład w AdminManager.cs:
-Metody ReadPersonsFromFile i WritePersonsToFile działają na obiektach typu Person, ale mogą operować na instancjach klas pochodnych Admin i User.
+Klasa ElectronicEquipment i jej podklasy:
 
-Przykład w EquipmentManager.cs:
-Metody ReadEquipmentFromFile i WriteEquipmentToFile działają na obiektach typu ElectronicEquipment, ale mogą operować na instancjach klas pochodnych Computer, Monitor, Printer, i Phone.
+Klasa ElectronicEquipment jest bazową klasą dla różnych typów sprzętu: Computer, Monitor, Printer, Phone.
+Każda z tych klas dodaje specyficzne właściwości, takie jak CPU i RAM dla Computer czy Size dla Monitor.
 
-Hermetyzacja: Została wykorzystana w klasach takich jak Person, Admin Manager i Equipment Manager.
+Polimorfizm w metodach operujących na sprzęcie:
 
-Person: W tej klasie pola takie jak Id, Name, PasswordHash, i IsAdmin są hermetyzowane poprzez właściwości public z akcesorami get i set, które pozwalają na kontrolowanie dostępu i manipulację wartościami z zewnątrz klasy. Konstruktor klasy inicjalizuje te właściwości, zapewniając bezpieczne ustawianie wartości przy tworzeniu obiektu.
+Metoda DisplayEquipment w EquipmentManager używa polimorfizmu do wyświetlania różnych typów sprzętu.
 
-AdminManager: W tej klasie użyto prywatnych pól, takich jak filePath i personList, do przechowywania ścieżki do pliku i listy osób, co zapobiega bezpośredniemu dostępowi i modyfikacji tych pól z zewnątrz klasy. Prywatne metody ReadPersonsFromFile i WritePersonsToFile służą do hermetyzacji logiki odczytu i zapisu danych, co zwiększa bezpieczeństwo danych i utrzymuje klarowność interfejsów publicznych klasy.
+Hermetyzacja (Enkapsulacja)
+Hermetyzacja polega na ukrywaniu szczegółów implementacji i kontrolowaniu dostępu do danych poprzez publiczne metody i właściwości.
 
-EquipmentManager: Hermetyzacja w tej klasie manifestuje się poprzez użycie prywatnego pola equipmentFilePath oraz prywatnego settera dla właściwości EquipmentList, co ogranicza możliwość modyfikacji listy sprzętów bezpośrednio z zewnątrz klasy. Metoda ReadEquipmentFromFile jest prywatna, chroniąc logikę wczytywania danych przed dostępem zewnętrznym.
+Ukrywanie szczegółów implementacji:
 
-### Obsługa programu
-```plaintext
-1. Wprowadzenie
-Aplikacja "ElectronicEquipmentApp" pozwala na rejestrację i zarządzanie użytkownikami, zarządzanie sprzętem elektronicznym oraz przypisywanie sprzętu do pracowników. Aplikacja skierowana jest głównie do administratorów systemu oraz użytkowników z odpowiednimi uprawnieniami.
+Pola w klasach Persons i ElectronicEquipment są prywatne lub chronione, a dostęp do nich odbywa się przez publiczne właściwości.
+Hermetyzacja w LoginAndPersonManager:
 
-2. Logowanie i Rejestracja
-Rejestracja: Aby zarejestrować nowego użytkownika lub administratora, uruchom aplikację i wybierz opcję 1 dla rejestracji jako admin lub 2 jako użytkownik. Następnie podaj wymagane dane, takie jak ID, imię i nazwisko oraz hasło.
-Logowanie: Aby zalogować się do systemu, uruchom aplikację i wybierz opcję 3. Podaj swoje ID oraz hasło.
-3. Menu Administratora
-Po zalogowaniu jako administrator, masz dostęp do następujących opcji:
+Metody takie jak HashPassword i ReadPassword są prywatne, co oznacza, że są używane tylko wewnątrz klasy LoginAndPersonManager i nie są dostępne z zewnątrz.
 
-Sprzęt:
-Dodaj nowy sprzęt: Wybierz typ sprzętu i podaj jego szczegółowe dane.
-Edytuj istniejący sprzęt: Aktualizuj dane wybranego sprzętu.
-Przypisz sprzęt do pracownika: Wybierz sprzęt i przypisz go do wybranego pracownika.
-Usuń sprzęt: Usuń wybrany sprzęt z systemu.
-Pracownik:
-Dodaj nowego pracownika: Podaj dane pracownika, w tym numer pokoju.
-Edytuj pracownika: Zaktualizuj dane istniejącego pracownika.
-Usuń pracownika: Usuń pracownika, który nie ma przypisanego sprzętu.
-Wyszukiwanie:
-Szukaj sprzętu: Wyszukaj sprzęt po ID.
-Pokaż sprzęt przypisany do pracownika: Wyświetl wszystki sprzęt przypisany do wybranego pracownika.
-4. Menu Użytkownika
-Jako zwykły użytkownik masz dostęp do ograniczonego menu:
-
-Wyszukiwanie:
-Szukaj sprzętu: Wyszukaj sprzęt po ID.
-Pokaż sprzęt przypisany do pracownika: Wyświetl wszystki sprzęt przypisany do wybranego pracownika.
-5. Zapisywanie Zmian
-Nie zapomnij zapisać zmian przed wyjściem z aplikacji. Pojawiające się monity o zapisanie zmian pozwolą ci zabezpieczyć wprowadzone modyfikacje.
-
-6. Zakończenie Pracy z Aplikacją
-Aby zakończyć pracę z aplikacją, wybierz opcję 0. Wyjście w głównym menu. Przed zamknięciem aplikacji zostaniesz poproszony o zapisanie zmian.
+Podsumowanie
+Projekt wykorzystuje podstawowe koncepcje programowania obiektowego, takie jak dziedziczenie, polimorfizm i hermetyzacja, aby stworzyć modularny i rozszerzalny system zarządzania sprzętem i użytkownikami. Dziedziczenie pozwala na ponowne wykorzystanie kodu, polimorfizm umożliwia elastyczne operowanie na różnych typach obiektów, a hermetyzacja zapewnia bezpieczeństwo i kontrolę nad danymi.
