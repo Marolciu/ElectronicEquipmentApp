@@ -84,9 +84,13 @@ Klasa ElectronicEquipment i jej podklasy:
 Klasa ElectronicEquipment jest bazową klasą dla różnych typów sprzętu: Computer, Monitor, Printer, Phone.
 Każda z tych klas dodaje specyficzne właściwości, takie jak CPU i RAM dla Computer czy Size dla Monitor.
 
+![Obraz2](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/img/Zrzut%20ekranu%202024-06-22%20192639.png?raw=true)
+
 Polimorfizm w metodach operujących na sprzęcie:
 
 Metoda DisplayEquipment w EquipmentManager używa polimorfizmu do wyświetlania różnych typów sprzętu.
+
+![Obraz3](https://github.com/Marolciu/ElectronicEquipmentApp/assets/148622198/9b3d7aad-4b4e-4203-a70f-1836f0cf9911)
 
 Hermetyzacja (Enkapsulacja)
 Hermetyzacja polega na ukrywaniu szczegółów implementacji i kontrolowaniu dostępu do danych poprzez publiczne metody i właściwości.
@@ -96,7 +100,11 @@ Ukrywanie szczegółów implementacji:
 Pola w klasach Persons i ElectronicEquipment są prywatne lub chronione, a dostęp do nich odbywa się przez publiczne właściwości.
 Hermetyzacja w LoginAndPersonManager:
 
+![Obraz4](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/img/Zrzut%20ekranu%202024-06-22%20192708.png?raw=true)
+
 Metody takie jak HashPassword i ReadPassword są prywatne, co oznacza, że są używane tylko wewnątrz klasy LoginAndPersonManager i nie są dostępne z zewnątrz.
+
+![Obraz5](https://github.com/Marolciu/ElectronicEquipmentApp/assets/148622198/61e1f5e8-956c-4aab-b7ed-4204e62f57c1)
 
 Podsumowanie
 Projekt wykorzystuje podstawowe koncepcje programowania obiektowego, takie jak dziedziczenie, polimorfizm i hermetyzacja, aby stworzyć modularny i rozszerzalny system zarządzania sprzętem i użytkownikami. Dziedziczenie pozwala na ponowne wykorzystanie kodu, polimorfizm umożliwia elastyczne operowanie na różnych typach obiektów, a hermetyzacja zapewnia bezpieczeństwo i kontrolę nad danymi.
