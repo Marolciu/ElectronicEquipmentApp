@@ -1,7 +1,7 @@
 # ElectronicEquipmentApp
 
 ## Opis programu
-ElectronicEquipmentApp to aplikacja konsolowa napisana w języku C#, która służy do zarządzania sprzętem elektronicznym w firmie. Aplikacja pozwala na rejestrowanie i logowanie administratorów, dodawanie, usuwanie i edytowanie sprzętu takiego jak telefony, komputery, drukarki i monitory oraz przypisywanie go do użytkowników. Program ma za zadanie ułatwiać inwentaryzację i kontrolę nad tym, kto jest w posiadaniu konkretnego urządzenia. Aplikacje umożliwia również wyświetlanie wszystkiego co znajduje się na "stanie" osoby której wydano sprzęt firmowy w celu realizacji zadań związanych z pracą w organizacji. Informacje zapisywane są w plikach .txt Program będzie sukcesywnie rozbudowywany o nowe funkcje i właściwości.
+Program ElectronicEquipmentApp jest aplikacją konsolową do zarządzania elektronicznym sprzętem i personelem w organizacji. Użytkownicy mogą logować się jako administratorzy lub zwykli użytkownicy, co determinuje zakres dostępnych opcji. Program oferuje różne menu i funkcje w zależności od roli użytkownika, w tym rejestrację, logowanie, zarządzanie sprzętem i pracownikami oraz wyszukiwanie informacji. Administratorzy mają pełny dostęp do wszystkich funkcji, podczas gdy zwykli użytkownicy mogą przeglądać dane sprzętu i przypisania.
 
 ## Funkcje aplikacji
 1. Rejestracja użytkowników
