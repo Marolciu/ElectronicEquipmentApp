@@ -35,17 +35,14 @@ Podklasy, Admin, User, Employee.
 Klasa ElectronicEquipment: Przechowuje każdy rodzaj sprzętu oraz jego specyficzne właściwości, np. CPU i RAM dla komputerów lub numer telefonu dla podklasy Phone.
 Podklasy, Computer, Monitor, Printer, Phone.
 
+Program.cs
+Klasa Program jest główną klasą uruchamiającą aplikację "ElectronicEquipmentApp". Odpowiada za interakcję użytkownika z aplikacją, zarządzanie sesją użytkownika oraz wywoływanie odpowiednich funkcji w zależności od wyborów użytkownika.
+
 LoginAndPersonManager.cs
-Zarządza rejestracją, logowaniem i operacjami na osobach.
-Używa SQLite do przechowywania danych użytkowników w bazie danych.
+Klasa LoginAndPersonManager zarządza rejestracją, logowaniem oraz operacjami na użytkownikach (osobach) w aplikacji. Obejmuje funkcje związane z tworzeniem i zarządzaniem kontami użytkowników oraz przechowywaniem tych danych w bazie danych SQLite.
 
 EquipmentManager.cs
-Zarządza dodawaniem, edytowaniem, usuwaniem i przypisywaniem sprzętu do pracowników.
-Przechowuje informacje o sprzęcie i pracownikach w bazie SQLite.
-
-Program.cs
-Główna klasa uruchamiająca aplikację, zawierająca menu główne i obsługę wyborów użytkownika.
-Obsługuje zarówno interfejs dla administratora, jak i użytkownika.
+Klasa EquipmentManager jest odpowiedzialna za zarządzanie sprzętem elektronicznym oraz pracownikami w aplikacji. Obejmuje funkcje związane z dodawaniem, edytowaniem, usuwaniem i przypisywaniem sprzętu, a także zarządzaniem danymi pracowników. Klasa ta również obsługuje interakcję z bazą danych SQLite, przechowującą informacje o sprzęcie i pracownikach.
 
 ## Jak uruchomić
 
