@@ -108,3 +108,22 @@ Metody takie jak HashPassword i ReadPassword są prywatne, co oznacza, że są u
 
 Podsumowanie
 Projekt wykorzystuje podstawowe koncepcje programowania obiektowego, takie jak dziedziczenie, polimorfizm i hermetyzacja, aby stworzyć modularny i rozszerzalny system zarządzania sprzętem i użytkownikami. Dziedziczenie pozwala na ponowne wykorzystanie kodu, polimorfizm umożliwia elastyczne operowanie na różnych typach obiektów, a hermetyzacja zapewnia bezpieczeństwo i kontrolę nad danymi.
+
+## Przykład użycia programu:
+1. Rejestracja jako administrator i logowanie.
+![Screen1](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20195935.png?raw=true)
+
+2. Dodawanie urządzenia.
+![Screen2](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20200054.png?raw=true)
+
+3. Dodawanie pracownika.
+![Screen3](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20200152.png?raw=true)
+
+4. Przypisanie sprzętu do pracownika.
+![Screen4](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20200249.png?raw=true)
+
+5. Wyszukiwanie.
+![Screen5](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20201419.png?raw=true)
+
+6. Podgląd na menu Użytkownika programu i wyszukiwanie z jego poziomu.
+![Screen6](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/screens/Zrzut%20ekranu%202024-06-22%20201537.png?raw=true)
