@@ -65,33 +65,35 @@ EquipmentManager: Hermetyzacja w tej klasie manifestuje się poprzez użycie pry
 
 ### Obsługa programu
 ```plaintext
-1. Rejestracja administratora: Pozwala na utworzenie nowego konta administratora.
-2. Logowanie administratora: Pozwala zalogować się na istniejące konto
-Po zalogowaniu dostępne jest menu główne:
-1. Zarządzanie sprzętem:
-> Dodawanie nowego sprzętu.
-> Edycja istniejącego sprzętu.
-> Przypisywanie sprzętu do użytkowników.
-> Usuwanie sprzętu.
-2. Zarządzanie użytkownikami:
-> Dodawanie nowych użytkowników.
-> Edycja użytkowników.
-> Usuwanie użytkowników.
-3. Wyszukiwanie sprzętu:
-> Wyszukiwanie sprzętu po ID.
-> Wyświetlanie sprzętu przypisanego do użytkownika.
-Wyjście: Zakończenie działania aplikacji.
+1. Wprowadzenie
+Aplikacja "ElectronicEquipmentApp" pozwala na rejestrację i zarządzanie użytkownikami, zarządzanie sprzętem elektronicznym oraz przypisywanie sprzętu do pracowników. Aplikacja skierowana jest głównie do administratorów systemu oraz użytkowników z odpowiednimi uprawnieniami.
 
-Przykład użycia
+2. Logowanie i Rejestracja
+Rejestracja: Aby zarejestrować nowego użytkownika lub administratora, uruchom aplikację i wybierz opcję 1 dla rejestracji jako admin lub 2 jako użytkownik. Następnie podaj wymagane dane, takie jak ID, imię i nazwisko oraz hasło.
+Logowanie: Aby zalogować się do systemu, uruchom aplikację i wybierz opcję 3. Podaj swoje ID oraz hasło.
+3. Menu Administratora
+Po zalogowaniu jako administrator, masz dostęp do następujących opcji:
 
-Rejestracja i logowanie
+Sprzęt:
+Dodaj nowy sprzęt: Wybierz typ sprzętu i podaj jego szczegółowe dane.
+Edytuj istniejący sprzęt: Aktualizuj dane wybranego sprzętu.
+Przypisz sprzęt do pracownika: Wybierz sprzęt i przypisz go do wybranego pracownika.
+Usuń sprzęt: Usuń wybrany sprzęt z systemu.
+Pracownik:
+Dodaj nowego pracownika: Podaj dane pracownika, w tym numer pokoju.
+Edytuj pracownika: Zaktualizuj dane istniejącego pracownika.
+Usuń pracownika: Usuń pracownika, który nie ma przypisanego sprzętu.
+Wyszukiwanie:
+Szukaj sprzętu: Wyszukaj sprzęt po ID.
+Pokaż sprzęt przypisany do pracownika: Wyświetl wszystki sprzęt przypisany do wybranego pracownika.
+4. Menu Użytkownika
+Jako zwykły użytkownik masz dostęp do ograniczonego menu:
 
-> Wybierz opcję Rejestracja i utwórz konto administratora podając 6-cyfrowe ID (Twój login jest to kolejno pierwsze 6 cyfr z numeru PESEL RRMMDD)
-> Podaj Imię i Nazwisko
-> Utwórz swoje własne unikatowe hasło logowania.
-> Wybierz opcję Logowanie i zaloguj się na konto abyś mógł dokonywać zmian pracując z programem.
-> Wybierz opcję dodaj sprzęt i podążaj za instrukcjami.
-> Analogicznie dodaj nowego użytkownika który będzie posługiwał się urządzeniem.
-> Otwórz menu sprzęt i przypisz sprzęt do użytkownika.
-> Teraz moższ skorzystać z menu i wyszukać sprzęt przypisany do użytkownika.
-> Aby poprawnie zamknąć program i zapisać zmiany w menu głównym wybierz opcję Wyjście oraz potwierdź zapisanie zmian klikając t i zatwierdź enter.
+Wyszukiwanie:
+Szukaj sprzętu: Wyszukaj sprzęt po ID.
+Pokaż sprzęt przypisany do pracownika: Wyświetl wszystki sprzęt przypisany do wybranego pracownika.
+5. Zapisywanie Zmian
+Nie zapomnij zapisać zmian przed wyjściem z aplikacji. Pojawiające się monity o zapisanie zmian pozwolą ci zabezpieczyć wprowadzone modyfikacje.
+
+6. Zakończenie Pracy z Aplikacją
+Aby zakończyć pracę z aplikacją, wybierz opcję 0. Wyjście w głównym menu. Przed zamknięciem aplikacji zostaniesz poproszony o zapisanie zmian.
