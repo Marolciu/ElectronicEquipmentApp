@@ -4,7 +4,7 @@ namespace ElectronicEquipmentApp
 {
     class Program
     {
-        static EquipmentManager manager = new EquipmentManager();
+        static ProgramManager manager = new ProgramManager();
         static LoginAndPersonManager adminManager = new LoginAndPersonManager();
         static bool hasSavedChanges = false;
 

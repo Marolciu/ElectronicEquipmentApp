@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace ElectronicEquipmentApp
 {
-    class EquipmentManager
+    class ProgramManager
     {
         private string connectionString = "Data Source=equipmentApp.db;Version=3;";
 
         public List<Employee> EmployeeList { get; private set; } = new List<Employee>();
         public List<ElectronicEquipment> EquipmentList { get; private set; } = new List<ElectronicEquipment>();
 
-        public EquipmentManager()
+        public ProgramManager()
         {
             CreateDatabase();
             EmployeeList = ReadEmployeesFromDatabase();
