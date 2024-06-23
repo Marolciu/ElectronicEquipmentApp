@@ -87,6 +87,7 @@ Każda z tych klas dodaje specyficzne właściwości, takie jak CPU i RAM dla Co
 ![Obraz2](https://github.com/Marolciu/ElectronicEquipmentApp/blob/master/img/Zrzut%20ekranu%202024-06-22%20192639.png?raw=true)
 
 Polimorfizm w metodach operujących na sprzęcie:
+EquipmentManager przechowuje listę obiektów typu ElectronicEquipment, ale może przechowywać obiekty Computer, Monitor, Printer, Phone.
 
 Metoda DisplayEquipment w EquipmentManager używa polimorfizmu do wyświetlania różnych typów sprzętu.
 
